@@ -16,6 +16,7 @@ public class Nave4 {
     private int vidas = 3;
     private float xVel = 0;
     private float yVel = 0;
+    private float cooldown = 0;
     private Sprite spr;
     private Sound sonidoHerido;
     private Sound soundBala;
@@ -39,10 +40,20 @@ public class Nave4 {
         float y =  spr.getY();
         if (!herido) {
 	        // que se mueva con teclado
-	        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) xVel--;
-	        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) xVel++;
-        	if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) yVel--;     
-	        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) yVel++;
+        	//Horizontal movement.
+	        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) 
+	        	xVel = -2;
+	        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) 
+	        	xVel = 2;
+	        else
+	        	xVel = 0;
+	        //Vertical movement.
+        	if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) 
+        		yVel = -2;  
+        	else if (Gdx.input.isKeyPressed(Input.Keys.UP)) 
+	        	yVel = 2;
+        	else
+        		yVel = 0;
         	
 	     /*   if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) spr.setRotation(++rotacion);
 	        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) spr.setRotation(--rotacion);
@@ -75,12 +86,22 @@ public class Nave4 {
  		   if (tiempoHerido<=0) herido = false;
  		 }
         // disparo
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {         
-          Bullet  bala = new Bullet(spr.getX()+spr.getWidth()/2-5,spr.getY()+ spr.getHeight()-5,0,3,txBala);
-	      juego.agregarBala(bala);
-	      soundBala.play();
-        }
+        atacar(juego);
        
+    }
+    public void atacar(PantallaJuego juego) {
+        if(cooldown <= 0){
+        	if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {         
+        		Bullet  bala = new Bullet(spr.getX()+spr.getWidth()/2-5,spr.getY()+ spr.getHeight()-5,0,3,txBala);
+        		juego.agregarBala(bala);
+        		soundBala.play();
+        		cooldown = 10f;
+        	}	
+        }	
+        else {
+        	cooldown -= 0.1f;
+        	System.out.println(cooldown);
+        }
     }
       
     public boolean checkCollision(Ball2 b) {
