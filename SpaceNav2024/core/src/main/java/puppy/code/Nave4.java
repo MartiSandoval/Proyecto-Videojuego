@@ -99,7 +99,7 @@ public class Nave4 {
         }
         else {
             cooldown -= 0.52f;
-            System.out.println(cooldown);
+            //System.out.println(cooldown);
         }
     }
 
