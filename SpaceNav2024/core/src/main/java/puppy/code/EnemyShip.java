@@ -36,10 +36,10 @@ public class EnemyShip extends SpaceShip{
 	protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		if(cooldown <= 0) {
-			Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-3,getBullet(), false);
-			bullet.setRotation(180);
+			//Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-3,getBullet(), false);
+			//bullet.setRotation(180);
 			
-			juego.agregarBala(bullet);
+			//juego.agregarBala(bullet);
 			getSoundBullet().play();
 			cooldown = ran.nextFloat(15 - 10 + 1) + 10;
 		}

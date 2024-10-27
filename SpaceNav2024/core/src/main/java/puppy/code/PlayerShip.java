@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class PlayerShip extends SpaceShip{
 	private float cooldown = 0;
-	private static PlayerShip player;
 	
 	public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, soundCollision, txBullet, soundBullet);

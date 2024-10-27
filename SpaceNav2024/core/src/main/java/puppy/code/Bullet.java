@@ -9,13 +9,13 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Bullet {
 
-	private int xSpeed;
-	private int ySpeed;
+	private float xSpeed;
+	private float ySpeed;
 	private boolean destroyed = false;
 	private boolean isPlayerBullet;
 	private Sprite spr;
 	    
-	    public Bullet(float x, float y, int xSpeed, int ySpeed, Texture tx, boolean isPlayerBullet) {
+	    public Bullet(float x, float y, float xSpeed, float ySpeed, Texture tx, boolean isPlayerBullet) {
 	    	spr = new Sprite(tx);
 	    	spr.setPosition(x, y);
 	        this.xSpeed = xSpeed;
@@ -24,6 +24,7 @@ public class Bullet {
 	        this.isPlayerBullet = isPlayerBullet;
 	    }
 	    public void update() {
+	    	
 	        spr.setPosition(spr.getX()+xSpeed, spr.getY()+ySpeed);
 	        if (spr.getX() < 0 || spr.getX()+spr.getWidth() > Gdx.graphics.getWidth()) {
 	            destroyed = true;
@@ -34,7 +35,7 @@ public class Bullet {
 	        
 	    }
 	    
-	    public void setRotation(int rotation) {
+	    public void setRotation(float rotation) {
 	    	spr.setRotation(rotation);
 	    }
 	    
@@ -47,16 +48,16 @@ public class Bullet {
 	    public Rectangle getArea() {
 	    	return spr.getBoundingRectangle();
 	    }
-	    public int getXSpeed() {
+	    public float getXSpeed() {
 	    	return xSpeed;
 	    }
-	    public int getYSpeed() {
+	    public float getYSpeed() {
 	    	return ySpeed;
 	    }
-	    public void setXSpeed(int xSpeed) {
+	    public void setXSpeed(float xSpeed) {
 	    	this.xSpeed = xSpeed;
 	    }
-	    public void setYSpeed(int ySpeed) {
+	    public void setYSpeed(float ySpeed) {
 	    	this.ySpeed = ySpeed;
 	    }
 	    
