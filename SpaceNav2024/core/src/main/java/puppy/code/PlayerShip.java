@@ -80,7 +80,6 @@ public class PlayerShip extends SpaceShip{
 			setYVel(0);	
 	}
 
-	@Override
 	public boolean checkCollision(SpaceShip ship) {
 		if(!isHurt() && ship.getArea().overlaps(getSprite().getBoundingRectangle())){
             if (getXVel() == 0) 

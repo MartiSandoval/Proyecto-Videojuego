@@ -125,7 +125,7 @@ public class PantallaJuego implements Screen {
 		        for (int j=0;j<ships.size;j++) {
 		          SpaceShip ship2 = ships.get(j); 
 		          if (i<j) 
-		        	  ship.checkCollision(ship2);
+		        	  ((EnemyShip)ship).checkCollision(ship2);
 		        }
 		      } 
 		      

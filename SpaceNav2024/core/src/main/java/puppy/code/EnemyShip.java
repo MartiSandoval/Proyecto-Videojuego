@@ -57,7 +57,6 @@ public class EnemyShip extends SpaceShip{
 		getSprite().draw(batch);
 	}
 
-	@Override
 	public boolean checkCollision(SpaceShip ship) {
 		// TODO Auto-generated method stub
 		if(ship.getSprite().getBoundingRectangle().overlaps(getArea())) {

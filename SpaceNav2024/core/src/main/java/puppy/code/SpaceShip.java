@@ -36,8 +36,6 @@ public abstract class SpaceShip {
 	
 	protected abstract void attack(PantallaJuego juego);
 	
-	public abstract boolean checkCollision(SpaceShip ship);
-	
 	public Rectangle getArea() {
 		return spr.getBoundingRectangle();
 	}
