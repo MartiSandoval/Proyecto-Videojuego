@@ -92,7 +92,7 @@ public class Nave4 {
     public void atacar(PantallaJuego juego) {
         if(cooldown <= 0){
         	if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {         
-        		Bullet  bala = new Bullet(spr.getX()+spr.getWidth()/2-5,spr.getY()+ spr.getHeight()-5,0,3,txBala);
+        		Bullet  bala = new Bullet(spr.getX()+spr.getWidth()/2-5,spr.getY()+ spr.getHeight()-5,0,3,txBala, true);
         		juego.agregarBala(bala);
         		soundBala.play();
         		cooldown = 10f;
