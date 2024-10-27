@@ -56,9 +56,9 @@ public class PantallaJuego implements Screen {
 		gameMusic.play();
 
 	    // cargar imagen de la nave, 64x64
-	    nave = new NaveJugador(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("MainShip3.png")),
+	    nave = new NaveJugador(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-	    				new Texture(Gdx.files.internal("Rocket2.png")),
+	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         nave.setVidas(vidas);
 
@@ -68,7 +68,7 @@ public class PantallaJuego implements Screen {
 	        Ball2 bb = new Ball2(r.nextInt((int)Gdx.graphics.getWidth()),
 	  	            50+r.nextInt((int)Gdx.graphics.getHeight()-50),
 	  	            20+r.nextInt(10), velXAsteroides+r.nextDouble(4), velYAsteroides+r.nextDouble(4),
-	  	            new Texture(Gdx.files.internal("aGreyMedium4.png")));
+	  	            new Texture(Gdx.files.internal("naveEnemiga.png")));
 	  	    balls1.add(bb);
 	  	    balls2.add(bb);
 	  	}
