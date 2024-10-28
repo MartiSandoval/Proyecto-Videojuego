@@ -10,10 +10,14 @@ import com.badlogic.gdx.math.MathUtils;
 public class PlayerShip extends SpaceShip{
     private int maxTimeHurt = 50;
     private int timeHurt;
+    private Sound soundHurt;
+    private boolean hurt = false;
+    private boolean destroy = false;
 	
 	public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
-		super(x, y, tx, soundCollision, txBullet, soundBullet);
+		super(x, y, tx, txBullet, soundBullet);
 		setMovementSpeed(3);
+		this.soundHurt = soundCollision;
 		setLifes(3);
 	}
 	
@@ -133,6 +137,10 @@ public class PlayerShip extends SpaceShip{
         }
         return false;
 	}
+	public Sound getSoundHurt() {
+		return soundHurt;
+	}
+	
 	public void setTimeHurt(int timeHurt) {
 		this.timeHurt = timeHurt;
 	}
@@ -141,5 +149,19 @@ public class PlayerShip extends SpaceShip{
 	}
 	public int getMaxTimeHurt() {
 		return maxTimeHurt;
+	}
+	
+	public boolean isDestroy() {
+		return !hurt && destroy;
+	}
+	public void gotDestroy(boolean destroy) {
+		this.destroy = destroy;
+	}
+
+	public boolean isHurt() {
+		return hurt;
+	}
+	public void gotHurt(boolean hurt) {
+		this.hurt = hurt;
 	}
 }

@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class EnemyShip extends SpaceShip{
 	private Random ran = new Random();
 	
-	public EnemyShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
-		super(x, y, tx, soundCollision, txBullet, soundBullet);
+	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
+		super(x, y, tx, txBullet, soundBullet);
 		setLifes(2);
 		setMovementSpeed((ran.nextFloat(4 - 2 + 1)) + 2);
 	}
