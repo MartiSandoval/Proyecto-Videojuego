@@ -18,8 +18,7 @@ public abstract class SpaceShip {
     private Sound soundBullet;
     private Texture txBullet;
     private boolean hurt = false;
-    private int maxTimeHurt = 50;
-    private int timeHurt;
+    private float cooldown = 0;
 	
     public SpaceShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
     	soundHurt = soundCollision;
@@ -71,15 +70,7 @@ public abstract class SpaceShip {
 	public Sound getSoundHurt() {
 		return soundHurt;
 	}
-	public void setTimeHurt(int timeHurt) {
-		this.timeHurt = timeHurt;
-	}
-	public int getTimeHurt() {
-		return timeHurt;
-	}
-	public int getMaxTimeHurt() {
-		return maxTimeHurt;
-	}
+
 	public void setXVel(float xVel) {
 		this.xVel = xVel;
 	}
@@ -98,6 +89,12 @@ public abstract class SpaceShip {
 	}
 	public float getMovementSpeed() {
 		return movementSpeed;
+	}
+	public void setCooldown(float cooldown) {
+		this.cooldown = cooldown;
+	}
+	public float getCooldown() {
+		return cooldown;
 	}
 	
 	public int getLifes() {

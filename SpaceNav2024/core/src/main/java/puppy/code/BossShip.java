@@ -7,10 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
-public class BossShip extends SpaceShip {
-    private float cooldown = 0f; 
+public class BossShip extends SpaceShip { 
     private int bulletSpeed = 2; 
-    
     private int attackCounter = 0;
     
     private Array<AttackPattern> attackPatterns;
@@ -47,7 +45,7 @@ public class BossShip extends SpaceShip {
 
     @Override
     protected void attack(PantallaJuego juego) {
-        if (cooldown <= 0 && currentAttack != null) {
+        if (getCooldown() <= 0 && currentAttack != null) {
         	currentAttack.execute(this, juego, bulletSpeed);
         	attackCounter++;
         	if(attackCounter >= 4) {
@@ -55,9 +53,9 @@ public class BossShip extends SpaceShip {
         		attackCounter = 0;
         	}
         	getSoundBullet().play();
-            cooldown = 10f;
+            setCooldown(10f);
         } else 
-            cooldown -= 0.1f;
+            setCooldown(getCooldown() - 0.1f);
     }
 
 }

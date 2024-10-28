@@ -72,6 +72,7 @@ public class PantallaJuego implements Screen {
     				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 	    	ships.add(ship);
 	    }
+	   ships.add(boss);
 	}
     
 	public void dibujaEncabezado() {
@@ -101,7 +102,7 @@ public class PantallaJuego implements Screen {
 	    				  
 	    				  enemyShip.setLifes(enemyShip.getLifes() - 1);
 	    				  
-	    				  if(enemyShip.getLifes() == 0){
+	    				  if(enemyShip.getLifes() <= 0){
 	    					  ships.removeIndex(j);
 	    					  j--;
 	    					  score += 10;
@@ -120,9 +121,9 @@ public class PantallaJuego implements Screen {
 	       	  }
 	       	  
 		      //Collisions between enemies. 
-		      for (int i = 0; i< ships.size; i++) {
+		      for (int i = 0; i< ships.size - 1; i++) {
 		    	SpaceShip ship = ships.get(i);   
-		        for (int j=0;j<ships.size;j++) {
+		        for (int j=0;j<ships.size - 1;j++) {
 		          SpaceShip ship2 = ships.get(j); 
 		          if (i<j) 
 		        	  ((EnemyShip)ship).checkCollision(ship2);
@@ -146,7 +147,7 @@ public class PantallaJuego implements Screen {
 	      nave.draw(batch, this);
 	      boss.draw(batch, this);
 	      //Collisions between player ship and enemy ships.
-	      for (int i = 0; i < ships.size; i++) {
+	      for (int i = 0; i < ships.size - 1; i++) {
 	    	    EnemyShip enemyShip = (EnemyShip) ships.get(i);
 	    	    enemyShip.showShip(batch);
 	    	    if (nave.checkCollision(enemyShip)) {  

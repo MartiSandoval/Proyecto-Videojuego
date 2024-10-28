@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class PlayerShip extends SpaceShip{
-	private float cooldown = 0;
+    private int maxTimeHurt = 50;
+    private int timeHurt;
 	
 	public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, soundCollision, txBullet, soundBullet);
@@ -49,19 +50,16 @@ public class PlayerShip extends SpaceShip{
 	@Override
 	protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
-		if(cooldown <= 0) {
+		if(getCooldown() <= 0) {
 			if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 				Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5,getSprite().getY()+ getSprite().getHeight()-5,0,4,getBullet(), true);
 				juego.agregarBala(bullet);
 				getSoundBullet().play();
-				cooldown = 5f;
+				setCooldown(5f);
 			}
 		}
 		else 
-		{
-			cooldown -= 0.1f;
-			System.out.println(cooldown);
-		}	
+			setCooldown(getCooldown() - 0.1f);
 	}
 
 	private void movement() {
@@ -134,5 +132,14 @@ public class PlayerShip extends SpaceShip{
             return true;
         }
         return false;
+	}
+	public void setTimeHurt(int timeHurt) {
+		this.timeHurt = timeHurt;
+	}
+	public int getTimeHurt() {
+		return timeHurt;
+	}
+	public int getMaxTimeHurt() {
+		return maxTimeHurt;
 	}
 }
