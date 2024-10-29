@@ -1,0 +1,23 @@
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ProjectModuleManager\">\r\n    <modules>\r\n      <module fileurl=\"file://$PROJECT_DIR$/.idea/Proyecto-videojuego.iml\" filepath=\"$PROJECT_DIR$/.idea/Proyecto-videojuego.iml\" />\r\n    </modules>\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+--- a/.idea/modules.xml	(revision 24878ec18fc4f89e4ce60b6afad676f3fc7b29f8)
++++ b/.idea/modules.xml	(date 1730166596034)
+@@ -3,6 +3,13 @@
+   <component name="ProjectModuleManager">
+     <modules>
+       <module fileurl="file://$PROJECT_DIR$/.idea/Proyecto-videojuego.iml" filepath="$PROJECT_DIR$/.idea/Proyecto-videojuego.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SpaceNav2024.iml" filepath="$PROJECT_DIR$/.idea/modules/SpaceNav2024.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.main.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.test.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.main.iml" />
++      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.test.iml" />
+     </modules>
+   </component>
+ </project>
+\ No newline at end of file
