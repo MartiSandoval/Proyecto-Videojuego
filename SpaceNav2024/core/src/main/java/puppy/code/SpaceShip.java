@@ -29,7 +29,7 @@ public abstract class SpaceShip {
     	spr.setPosition(x, y);
     	spr.setBounds(x,  y,  45,  45);
     }
-    public SpaceShip() {
+    public SpaceShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
     }
 
 	public abstract void draw(SpriteBatch batch, PantallaJuego juego);

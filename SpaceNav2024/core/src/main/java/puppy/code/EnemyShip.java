@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnemyShip extends SpaceShip implements PoderEspecial{
+    private float cooldown;
 	private Random ran = new Random();
 
 	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
@@ -78,4 +79,11 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 		System.out.println("Poder activado.");
 	}
 
+    public float getCooldown() {
+        return cooldown;
+    }
+
+    public void setCooldown(float cooldown) {
+        this.cooldown = cooldown;
+    }
 }

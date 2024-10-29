@@ -71,7 +71,10 @@ public class PantallaJuego implements Screen {
 	   ships.add(boss);
 	}
 
-	public void dibujaEncabezado() {
+    public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies, int i, int i1) {
+    }
+
+    public void dibujaEncabezado() {
 		CharSequence str = "Vidas: "+nave.getLifes()+" Ronda: "+ronda;
 		game.getFont().getData().setScale(2f);
 
