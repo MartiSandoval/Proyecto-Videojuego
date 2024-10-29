@@ -23,24 +23,22 @@ public class PantallaJuego implements Screen {
 	private Music gameMusic;
 	private int score;
 	private int ronda;
-	private double velXAsteroides;
-	private double velYAsteroides;
-	private int cantAsteroides;
+	private int cantEnemies;
+
 	private PlayerShip nave;
+	private BossShip boss;
+
 	private Array<SpaceShip> ships = new Array<>();
 	private  ArrayList<Bullet> balas = new ArrayList<>();
     private ArrayList<PoderEspecial> PoderesEspeciales = new ArrayList<>();
 
 
-	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score,
-			double velXAsteroides, double velYAsteroides, int cantAsteroides) {
+	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies) {
 		this.game = game;
 		this.ronda = ronda;
 		this.score = score;
-		this.velXAsteroides = velXAsteroides;
-		this.velYAsteroides = velYAsteroides;
-		this.cantAsteroides = cantAsteroides;
 
+		this.cantEnemies = cantEnemies;
 
 		Random ran = new Random();
 
@@ -50,7 +48,7 @@ public class PantallaJuego implements Screen {
 
 		//inicializar assets; musica de fondo y efectos de sonido
 		explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
-		explosionSound.setVolume(1,0.5f);
+		explosionSound.setVolume(1,0.25f);
 		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("DavidKBD - Electric Pulse - 09 - Vapor Trails Pursuit-short.wav")); //
 
 		gameMusic.setLooping(true);
@@ -63,15 +61,18 @@ public class PantallaJuego implements Screen {
 	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         nave.setLifes(vidas);
+        boss = new BossShip(Gdx.graphics.getWidth()/2-50,Gdx.graphics.getHeight() - 100,new Texture(Gdx.files.internal("Nairan - Dreadnought - Base.png")),
+	    				new Texture(Gdx.files.internal("Rocket2.png")),
+	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+        //crear asteroides
 
-        //crear naves Enemigas
-	    for(int i = 0; i < 10; i++) {
-	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("naveEnemiga.png")),
-    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
+	   for(int i = 0; i < cantEnemies; i++) {
+	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("Nairan - Battlecruiser - Base.png")),
+    				new Texture(Gdx.files.internal("Rocket2.png")),
     				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 	    	ships.add(ship);
 	    }
+	   ships.add(boss);
 	}
 
 	public void dibujaEncabezado() {
@@ -101,7 +102,7 @@ public class PantallaJuego implements Screen {
 
 	    				  enemyShip.setLifes(enemyShip.getLifes() - 1);
 
-	    				  if(enemyShip.getLifes() == 0){
+	    				  if(enemyShip.getLifes() <= 0){
 	    					  ships.removeIndex(j);
 	    					  j--;
 	    					  score += 10;
@@ -120,12 +121,12 @@ public class PantallaJuego implements Screen {
 	       	  }
 
 		      //Collisions between enemies.
-		      for (int i = 0; i< ships.size; i++) {
+		      for (int i = 0; i< ships.size - 1; i++) {
 		    	SpaceShip ship = ships.get(i);
-		        for (int j=0;j<ships.size;j++) {
+		        for (int j=0;j<ships.size - 1;j++) {
 		          SpaceShip ship2 = ships.get(j);
 		          if (i<j)
-		        	  ship.checkCollision(ship2);
+		        	  ((EnemyShip)ship).checkCollision(ship2);
 		        }
 		      }
 
@@ -139,14 +140,15 @@ public class PantallaJuego implements Screen {
 		    	  }
 		      }
 	      }
-	      //dibujar balas
-	     for (Bullet b : balas) {
+	      //Draw bullets.
+	      for (Bullet b : balas) {
 	          b.draw(batch);
               activarPoderesEspeciales();
 	      }
 	      nave.draw(batch, this);
+	      boss.draw(batch, this);
 	      //Collisions between player ship and enemy ships.
-	      for (int i = 0; i < ships.size; i++) {
+	      for (int i = 0; i < ships.size - 1; i++) {
 	    	    EnemyShip enemyShip = (EnemyShip) ships.get(i);
 	    	    enemyShip.showShip(batch);
 	    	    if (nave.checkCollision(enemyShip)) {
@@ -181,7 +183,7 @@ public class PantallaJuego implements Screen {
 	      //nivel completado
 	      if (ships.size == 0) {
 			Screen ss = new PantallaJuego(game,ronda+1, nave.getLifes(), score,
-					velXAsteroides+3, velYAsteroides+3, cantAsteroides+10);
+					 cantEnemies+5);
 			ss.resize(1200, 800);
 			game.setScreen(ss);
 			dispose();

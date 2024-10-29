@@ -8,12 +8,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class PlayerShip extends SpaceShip{
-	private float cooldown = 0;
-	private static PlayerShip player;
+    private int maxTimeHurt = 50;
+    private int timeHurt;
+    private Sound soundHurt;
+    private boolean hurt = false;
+    private boolean destroy = false;
 
 	public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
-		super(x, y, tx, soundCollision, txBullet, soundBullet);
-		setMovementSpeed(7);
+		super(x, y, tx, txBullet, soundBullet);
+		setMovementSpeed(3);
+		this.soundHurt = soundCollision;
 		setLifes(3);
 	}
 
@@ -50,19 +54,16 @@ public class PlayerShip extends SpaceShip{
 	@Override
 	protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
-		if(cooldown <= 0) {
+		if(getCooldown() <= 0) {
 			if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 				Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5,getSprite().getY()+ getSprite().getHeight()-5,0,4,getBullet(), true);
 				juego.agregarBala(bullet);
 				getSoundBullet().play();
-				cooldown = 10f;
+				setCooldown(10f);
 			}
 		}
 		else
-		{
-			cooldown -= 0.52f;
-			//System.out.println(cooldown);
-		}
+			setCooldown(getCooldown() - 0.52f);
 	}
 
 	private void movement() {
@@ -136,5 +137,32 @@ public class PlayerShip extends SpaceShip{
             return true;
         }
         return false;
+	}
+	public Sound getSoundHurt() {
+		return soundHurt;
+	}
+
+	public void setTimeHurt(int timeHurt) {
+		this.timeHurt = timeHurt;
+	}
+	public int getTimeHurt() {
+		return timeHurt;
+	}
+	public int getMaxTimeHurt() {
+		return maxTimeHurt;
+	}
+
+	public boolean isDestroy() {
+		return !hurt && destroy;
+	}
+	public void gotDestroy(boolean destroy) {
+		this.destroy = destroy;
+	}
+
+	public boolean isHurt() {
+		return hurt;
+	}
+	public void gotHurt(boolean hurt) {
+		this.hurt = hurt;
 	}
 }

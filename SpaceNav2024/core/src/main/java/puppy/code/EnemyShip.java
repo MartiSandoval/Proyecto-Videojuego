@@ -8,11 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnemyShip extends SpaceShip{
-	private float cooldown = 0;
 	private Random ran = new Random();
 	
-	public EnemyShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
-		super(x, y, tx, soundCollision, txBullet, soundBullet);
+	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
+		super(x, y, tx, txBullet, soundBullet);
 		setLifes(2);
 		setMovementSpeed((ran.nextFloat(4 - 2 + 1)) + 2);
 	}
@@ -35,16 +34,16 @@ public class EnemyShip extends SpaceShip{
 	@Override
 	protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
-		if(cooldown <= 0) {
-			Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-3,getBullet(), false);
-			bullet.setRotation(180);
+		if(getCooldown() <= 0) {
+			//Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-3,getBullet(), false);
+			//bullet.setRotation(180);
 			
-			juego.agregarBala(bullet);
+			//juego.agregarBala(bullet);
 			getSoundBullet().play();
-			cooldown = ran.nextFloat(15 - 10 + 1) + 10;
+			setCooldown(ran.nextFloat(15 - 10 + 1) + 10);
 		}
 		else
-			cooldown -= 0.1f;
+			setCooldown(getCooldown() - 0.1f);
 	}
 
 	private void movement() {
@@ -57,7 +56,6 @@ public class EnemyShip extends SpaceShip{
 		getSprite().draw(batch);
 	}
 
-	@Override
 	public boolean checkCollision(SpaceShip ship) {
 		// TODO Auto-generated method stub
 		if(ship.getSprite().getBoundingRectangle().overlaps(getArea())) {
