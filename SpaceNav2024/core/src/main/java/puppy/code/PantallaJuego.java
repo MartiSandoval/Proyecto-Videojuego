@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 
 public class PantallaJuego implements Screen {
@@ -22,61 +23,58 @@ public class PantallaJuego implements Screen {
 	private Music gameMusic;
 	private int score;
 	private int ronda;
-	private double velXAsteroides;
-	private double velYAsteroides;
-	private int cantAsteroides;
-
-	private NaveJugador nave;
-	private  ArrayList<Ball2> balls1 = new ArrayList<>();
-	private  ArrayList<Ball2> balls2 = new ArrayList<>();
+	private int cantEnemies;
+	
+	private PlayerShip nave;
+	private BossShip boss;
+	
+	private Array<SpaceShip> ships = new Array<>();
 	private  ArrayList<Bullet> balas = new ArrayList<>();
     private ArrayList<PoderEspecial> PoderesEspeciales = new ArrayList<>();
 
-
-	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score,
-			double velXAsteroides, double velYAsteroides, int cantAsteroides) {
+	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies) {
 		this.game = game;
 		this.ronda = ronda;
 		this.score = score;
-		this.velXAsteroides = velXAsteroides;
-		this.velYAsteroides = velYAsteroides;
-		this.cantAsteroides = cantAsteroides;
-
+		
+		this.cantEnemies = cantEnemies;
+		
+		Random ran = new Random();
 		batch = game.getBatch();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 640);
-
-		//inicializar assets; musica de fondo y efectos de sonido
+		
 		explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
-		explosionSound.setVolume(1,0.5f);
-		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("piano-loops.wav")); //
-
+		explosionSound.setVolume(1,0.25f);
+		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("DavidKBD - Electric Pulse - 09 - Vapor Trails Pursuit-short.wav")); //
+		
 		gameMusic.setLooping(true);
 		gameMusic.setVolume(0.5f);
 		gameMusic.play();
-
-	    // cargar imagen de la nave, 64x64
-	    nave = new NaveJugador(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("MainShip3.png")),
-	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-	    				new Texture(Gdx.files.internal("Rocket2.png")),
+		
+	     
+	    nave = new PlayerShip(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("MainShip3.png")),
+	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")), 
+	    				new Texture(Gdx.files.internal("Rocket2.png")), 
+	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3"))); 
+        nave.setLifes(vidas);
+        boss = new BossShip(Gdx.graphics.getWidth()/2-50,Gdx.graphics.getHeight() - 100,new Texture(Gdx.files.internal("Nairan - Dreadnought - Base.png")),
+	    				new Texture(Gdx.files.internal("Rocket2.png")), 
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-        nave.setVidas(vidas);
 
-        //crear asteroides
-        Random r = new Random();
-	    for (int i = 0; i < cantAsteroides; i++) {
-	        Ball2 bb = new Ball2(r.nextInt((int)Gdx.graphics.getWidth()),
-	  	            50+r.nextInt((int)Gdx.graphics.getHeight()-50),
-	  	            20+r.nextInt(10), velXAsteroides+r.nextDouble(4), velYAsteroides+r.nextDouble(4),
-	  	            new Texture(Gdx.files.internal("aGreyMedium4.png")));
-	  	    balls1.add(bb);
-	  	    balls2.add(bb);
-	  	}
+	   for(int i = 0; i < cantEnemies; i++) {
+	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("Nairan - Battlecruiser - Base.png")),
+    				new Texture(Gdx.files.internal("Rocket2.png")), 
+    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+	    	ships.add(ship);
+	    }
+	   ships.add(boss);
 	}
 
 	public void dibujaEncabezado() {
-		CharSequence str = "Vidas: "+nave.getVidas()+" Ronda: "+ronda;
-		game.getFont().getData().setScale(2f);
+		CharSequence str = "Vidas: "+nave.getLifes()+" Ronda: "+ronda;
+		game.getFont().getData().setScale(2f);		
+
 		game.getFont().draw(batch, str, 10, 30);
 		game.getFont().draw(batch, "Score:"+this.score, Gdx.graphics.getWidth()-150, 30);
 		game.getFont().draw(batch, "HighScore:"+game.getHighScore(), Gdx.graphics.getWidth()/2-100, 30);
@@ -86,65 +84,83 @@ public class PantallaJuego implements Screen {
 		  Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
           batch.begin();
 		  dibujaEncabezado();
-	      if (!nave.estaHerido()) {
 
-		      // colisiones entre balas y asteroides y su destruccion
-	    	  for (int i = 0; i < balas.size(); i++) {
-		            Bullet b = balas.get(i);
-		            b.update();
-		            for (int j = 0; j < balls1.size(); j++) {
-		              if (b.checkCollision(balls1.get(j))) {
-		            	 explosionSound.play();
-		            	 balls1.remove(j);
-		            	 balls2.remove(j);
-		            	 j--;
-		            	 score +=10;
-		              }
-		  	        }
-
-		         //   b.draw(batch);
-		            if (b.isDestroyed()) {
-		                balas.remove(b);
-		                i--; //para no saltarse 1 tras eliminar del arraylist
-		            }
-		      }
-		      //actualizar movimiento de asteroides dentro del area
-		      for (Ball2 ball : balls1) {
-		          ball.update();
-		      }
-
-		      //colisiones entre asteroides y sus rebotes
-		      for (int i=0;i<balls1.size();i++) {
-		    	Ball2 ball1 = balls1.get(i);
-		        for (int j=0;j<balls2.size();j++) {
-		          Ball2 ball2 = balls2.get(j);
-		          if (i<j) {
-		        	  ball1.checkCollision(ball2);
-
-		          }
+	      if (!nave.isHurt()) {
+	    	  //Collision between player bullets and enemy ships.
+	       	  for(int i = 0; i < balas.size(); i++) {
+	    		  Bullet bullet = balas.get(i);
+	    		  bullet.update();
+	    		  
+	    		  for(int j = 0; j < ships.size; j++) {
+	    			  SpaceShip enemyShip = ships.get(j);
+	    			  
+	    			  if(bullet.isPlayerBullet() && bullet.checkCollision(enemyShip)) {
+	    				  explosionSound.play();
+	    				  
+	    				  enemyShip.setLifes(enemyShip.getLifes() - 1);
+	    				  
+	    				  if(enemyShip.getLifes() <= 0){
+	    					  ships.removeIndex(j);
+	    					  j--;
+	    					  score += 10;
+	    				  }	 
+	    			  }
+	    		  }
+	    		  
+	    		  if(bullet.isDestroyed()) {
+    				  balas.remove(i);
+    				  i--;
+    			  }
+	    	  }
+	       	  for(int i = 0; i < ships.size; i++) {
+	       		  SpaceShip enemyShip = ships.get(i);
+	       		  enemyShip.draw(batch, this);
+	       	  }
+	       	  
+		      //Collisions between enemies. 
+		      for (int i = 0; i< ships.size - 1; i++) {
+		    	SpaceShip ship = ships.get(i);   
+		        for (int j=0;j<ships.size - 1;j++) {
+		          SpaceShip ship2 = ships.get(j); 
+		          if (i<j) 
+		        	  ((EnemyShip)ship).checkCollision(ship2);
 		        }
+		      } 
+		      
+		      for(int i = 0; i < balas.size(); i++) {
+		    	  Bullet bullet = balas.get(i);
+		    	  if(!bullet.isPlayerBullet() && nave.checkCollision(bullet)) {
+		    		  explosionSound.play();
+		    		  balas.remove(i);
+		    		  i--;
+		    		  break;
+		    	  }
 		      }
 	      }
-	      //dibujar balas
-	     for (Bullet b : balas) {
+	      //Draw bullets.
+	      for (Bullet b : balas) {    
 	          b.draw(batch);
               activarPoderesEspeciales();
 	      }
 	      nave.draw(batch, this);
-	      //dibujar asteroides y manejar colision con nave
-	      for (int i = 0; i < balls1.size(); i++) {
-	    	    Ball2 b=balls1.get(i);
-	    	    b.draw(batch);
-		          //perdió vida o game over
-	              if (nave.checkCollision(b)) {
-		            //asteroide se destruye con el choque
-	            	 balls1.remove(i);
-	            	 balls2.remove(i);
-	            	 i--;
-              }
+	      boss.draw(batch, this);
+	      //Collisions between player ship and enemy ships.
+	      for (int i = 0; i < ships.size - 1; i++) {
+	    	    EnemyShip enemyShip = (EnemyShip) ships.get(i);
+	    	    enemyShip.showShip(batch);
+	    	    if (nave.checkCollision(enemyShip)) {  
+	    	    	explosionSound.play();
+	    	    	ships.removeIndex(i);
+	    	    	i--;
+	    	    	if(nave.getLifes() <= 0) {
+	    	    		nave.setLifes(0);
+	    	    		break;
+	    	    	}
+              }   	  
   	        }
 
-	      if (nave.estaDestruido()) {
+	      //Checks if the player ships has been destroy.
+	      if (nave.isDestroy()) {
   			if (score > game.getHighScore())
   				game.setHighScore(score);
 	    	Screen ss = new PantallaGameOver(game);
@@ -154,9 +170,9 @@ public class PantallaJuego implements Screen {
   		  }
 	      batch.end();
 	      //nivel completado
-	      if (balls1.size()==0) {
-			Screen ss = new PantallaJuego(game,ronda+1, nave.getVidas(), score,
-					velXAsteroides+0.01, velYAsteroides+0.01, cantAsteroides+3);
+	      if (ships.size == 0) {
+			Screen ss = new PantallaJuego(game,ronda+1, nave.getLifes(), score, 
+					 cantEnemies+5);
 			ss.resize(1200, 800);
 			game.setScreen(ss);
 			dispose();
