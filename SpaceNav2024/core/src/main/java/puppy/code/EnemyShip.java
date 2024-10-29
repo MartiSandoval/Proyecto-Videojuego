@@ -5,13 +5,17 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnemyShip extends SpaceShip{
 	private Random ran = new Random();
+    private Sprite sprNav;
 
 	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, txBullet, soundBullet);
+        sprNav = new Sprite(tx);
+        sprNav.setBounds(x, y, 45, 45);
 		setLifes(2);
 		setMovementSpeed((ran.nextFloat(4 - 2 + 1)) + 2);
 	}

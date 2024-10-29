@@ -5,12 +5,23 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 
 public class PantallaMenu implements Screen {
 
 	private SpaceNavigation game;
 	private OrthographicCamera camera;
+    //private Skin skin;
+    //private Stage stage;
 
 	public PantallaMenu(SpaceNavigation game) {
 		this.game = game;
@@ -26,9 +37,19 @@ public class PantallaMenu implements Screen {
 		camera.update();
 		game.getBatch().setProjectionMatrix(camera.combined);
 
+        //stage = new Stage();
+        //Table table = new Table();
+        //table.setPosition(600, 400);
+        //table.setFillParent(true);
+        //table.setHeight(800);
+        //stage.addAction(table);
+
+
+
+
 		game.getBatch().begin();
-		game.getFont().draw(game.getBatch(), "Bienvenido a Space Navigation !", 140, 500);
-		game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 100, 450);
+		game.getFont().draw(game.getBatch(), "¡Bienvenido a Space Navigation!", game.getFont().getScaleX() + 200, 700);
+		//game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 100, 450);
 
 		game.getBatch().end();
 

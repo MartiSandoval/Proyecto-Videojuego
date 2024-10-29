@@ -23,7 +23,7 @@ public abstract class SpaceShip {
         this.txBullet = txBullet;
         spr = new Sprite(tx);
         spr.setPosition(x, y);
-        spr.setBounds(x,  y,  45,  45);
+        //spr.setBounds(x,  y,  45,  45);
     }
     public SpaceShip() {
     }

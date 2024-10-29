@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -13,10 +14,14 @@ public class PlayerShip extends SpaceShip{
     private Sound soundHurt;
     private boolean hurt = false;
     private boolean destroy = false;
+    private Sprite sprNav;
 
 	public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, txBullet, soundBullet);
-		setMovementSpeed(3);
+        sprNav = new Sprite(tx);
+        sprNav.setBounds(x, y, 45, 45);
+
+        setMovementSpeed(7);
 		this.soundHurt = soundCollision;
 		setLifes(3);
 	}

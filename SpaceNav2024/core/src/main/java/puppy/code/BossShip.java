@@ -4,19 +4,23 @@ import java.util.Random;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 public class BossShip extends SpaceShip {
     private int bulletSpeed = 2;
     private int attackCounter = 0;
+    private Sprite sprBoss;
 
     private Array<AttackPattern> attackPatterns;
     private AttackPattern currentAttack;
 
     public BossShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
         super(x, y, tx, txBullet, soundBullet);
-        setLifes(10);
+        sprBoss = new Sprite(tx);
+        sprBoss.setBounds(x, y, 80, 80);
+        setLifes(50);
         attackPatterns = new Array<>();
         attackPatterns.add(new CircularAttackPattern(10));
         attackPatterns.add(new SpiralAttackPattern(3, 10));
