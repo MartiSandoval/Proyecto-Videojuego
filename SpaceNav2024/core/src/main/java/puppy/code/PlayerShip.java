@@ -7,17 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-public class PlayerShip extends SpaceShip implements PoderEspecial{
-    private int maxTimeHurt = 50;
-    private int timeHurt;
-    private Sound soundHurt;
-    private boolean hurt = false;
-    private boolean destroy = false;
+public class PlayerShip extends SpaceShip{
+	private float cooldown = 0;
+	private static PlayerShip player;
 
 	public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
-		super(x, y, tx, txBullet, soundBullet);
-		setMovementSpeed(3);
-		this.soundHurt = soundCollision;
+		super(x, y, tx, soundCollision, txBullet, soundBullet);
+		setMovementSpeed(7);
 		setLifes(3);
 	}
 
@@ -54,16 +50,19 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
 	@Override
 	protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
-		if(getCooldown() <= 0) {
+		if(cooldown <= 0) {
 			if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 				Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5,getSprite().getY()+ getSprite().getHeight()-5,0,4,getBullet(), true);
 				juego.agregarBala(bullet);
 				getSoundBullet().play();
-				setCooldown(5f);
+				cooldown = 10f;
 			}
 		}
 		else
-			setCooldown(getCooldown() - 0.1f);
+		{
+			cooldown -= 0.52f;
+			//System.out.println(cooldown);
+		}
 	}
 
 	private void movement() {
@@ -82,6 +81,7 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
 			setYVel(0);
 	}
 
+	@Override
 	public boolean checkCollision(SpaceShip ship) {
 		if(!isHurt() && ship.getArea().overlaps(getSprite().getBoundingRectangle())){
             if (getXVel() == 0)
@@ -136,38 +136,5 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
             return true;
         }
         return false;
-	}
-	public Sound getSoundHurt() {
-		return soundHurt;
-	}
-
-	public void setTimeHurt(int timeHurt) {
-		this.timeHurt = timeHurt;
-	}
-	public int getTimeHurt() {
-		return timeHurt;
-	}
-	public int getMaxTimeHurt() {
-		return maxTimeHurt;
-	}
-
-	public boolean isDestroy() {
-		return !hurt && destroy;
-	}
-	public void gotDestroy(boolean destroy) {
-		this.destroy = destroy;
-	}
-
-	public boolean isHurt() {
-		return hurt;
-	}
-	public void gotHurt(boolean hurt) {
-		this.hurt = hurt;
-	}
-
-	@Override
-	public void activarPoder() {
-		// TODO Auto-generated method stub
-		System.out.println("Poder activado.");
 	}
 }
