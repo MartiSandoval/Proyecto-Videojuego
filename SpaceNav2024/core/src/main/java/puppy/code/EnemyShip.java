@@ -9,23 +9,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnemyShip extends SpaceShip{
 	private Random ran = new Random();
-	
+
 	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, txBullet, soundBullet);
 		setLifes(2);
 		setMovementSpeed((ran.nextFloat(4 - 2 + 1)) + 2);
 	}
-	
+
 	@Override
 	public void draw(SpriteBatch batch, PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		float x = getX();
 		float y = getY();
-		
+
 		movement();
-		
+
 		getSprite().setPosition(x + getXVel(), y + getYVel());
-		
+
 		getSprite().draw(batch);
 
 		attack(juego);
@@ -35,10 +35,10 @@ public class EnemyShip extends SpaceShip{
 	protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		if(getCooldown() <= 0) {
-			//Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-3,getBullet(), false);
-			//bullet.setRotation(180);
-			
-			//juego.agregarBala(bullet);
+			Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-3,getBullet(), false);
+			bullet.setRotation(180);
+
+			juego.agregarBala(bullet);
 			getSoundBullet().play();
 			setCooldown(ran.nextFloat(15 - 10 + 1) + 10);
 		}
@@ -59,16 +59,16 @@ public class EnemyShip extends SpaceShip{
 	public boolean checkCollision(SpaceShip ship) {
 		// TODO Auto-generated method stub
 		if(ship.getSprite().getBoundingRectangle().overlaps(getArea())) {
-			if (getXVel() == 0) 
+			if (getXVel() == 0)
 				setXVel(getXVel() + ship.getXVel()/2);
-			if (ship.getXVel() == 0) 
+			if (ship.getXVel() == 0)
 				ship.setXVel(-(ship.getXVel() + (int)getXVel()/2));
 			setMovementSpeed(this.getMovementSpeed() * -1);
             ship.setMovementSpeed(ship.getMovementSpeed() * -1);
-            
+
             return true;
 		}
-		
+
 		return false;
 	}
 

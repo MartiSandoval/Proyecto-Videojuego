@@ -61,14 +61,14 @@ public class PantallaJuego implements Screen {
 	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         nave.setLifes(vidas);
-        boss = new BossShip(Gdx.graphics.getWidth()/2-50,Gdx.graphics.getHeight() - 100,new Texture(Gdx.files.internal("Nairan - Dreadnought - Base.png")),
-	    				new Texture(Gdx.files.internal("Rocket2.png")),
+        boss = new BossShip(Gdx.graphics.getWidth()/2-50,Gdx.graphics.getHeight() - 100,new Texture(Gdx.files.internal("boss.png")),
+	    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         //crear asteroides
 
 	   for(int i = 0; i < cantEnemies; i++) {
-	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("Nairan - Battlecruiser - Base.png")),
-    				new Texture(Gdx.files.internal("Rocket2.png")),
+	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("naveEnemiga.png")),
+    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
     				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 	    	ships.add(ship);
 	    }
