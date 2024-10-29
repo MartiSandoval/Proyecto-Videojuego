@@ -68,7 +68,7 @@ public class PantallaJuego implements Screen {
 	    for(int i = 0; i < 10; i++) {
 	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("naveEnemiga.png")),
     				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-    				new Texture(Gdx.files.internal("disparo.png")),
+    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
     				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 	    	ships.add(ship);
 	    }
