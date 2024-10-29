@@ -7,47 +7,47 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-public class PlayerShip extends SpaceShip{
+public class PlayerShip extends SpaceShip implements PoderEspecial{
     private int maxTimeHurt = 50;
     private int timeHurt;
     private Sound soundHurt;
     private boolean hurt = false;
     private boolean destroy = false;
-	
+
 	public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, txBullet, soundBullet);
 		setMovementSpeed(3);
 		this.soundHurt = soundCollision;
 		setLifes(3);
 	}
-	
+
 	@Override
 	public void draw(SpriteBatch batch, PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		float x = getX();
 		float y = getY();
-				
+
 		if(!isHurt()) {
 			movement();
-					
+
 			if(x + getXVel() < 0 || x + getXVel() + getSprite().getWidth() > Gdx.graphics.getWidth())
 				setXVel(-1 * getXVel());
 			if(y + getYVel() < 0 || y + getYVel() + getSprite().getHeight() > Gdx.graphics.getHeight())
 				setYVel(-1 * getYVel());
-				
+
 			getSprite().setPosition(x + getXVel(), y + getYVel());
 			getSprite().draw(batch);
 		}else {
 			getSprite().setX(getSprite().getX() + MathUtils.random(-2, 2));
 			getSprite().draw(batch);
-					
+
 			getSprite().setX(x);
 			setTimeHurt(getTimeHurt() - 1);
 			if(getTimeHurt() <= 0)
 				gotHurt(false);
 			}
-				
+
 		attack(juego);
 	}
 
@@ -62,7 +62,7 @@ public class PlayerShip extends SpaceShip{
 				setCooldown(5f);
 			}
 		}
-		else 
+		else
 			setCooldown(getCooldown() - 0.1f);
 	}
 
@@ -79,23 +79,23 @@ public class PlayerShip extends SpaceShip{
 		else if(Gdx.input.isKeyPressed(Input.Keys.UP))
 			setYVel(getMovementSpeed());
 		else
-			setYVel(0);	
+			setYVel(0);
 	}
 
 	public boolean checkCollision(SpaceShip ship) {
 		if(!isHurt() && ship.getArea().overlaps(getSprite().getBoundingRectangle())){
-            if (getXVel() == 0) 
+            if (getXVel() == 0)
             	setXVel(getXVel() + ship.getXVel() / 2);
-            if (ship.getXVel() == 0) 
+            if (ship.getXVel() == 0)
             	ship.setXVel(ship.getXVel() + (int)getXVel()/2);
             setXVel(-getXVel());
             ship.setXVel(-ship.getXVel());
-            
-            if (getYVel() ==0) 
+
+            if (getYVel() ==0)
             	setYVel(getYVel() + ship.getYVel() / 2);
-            if (ship.getYVel() ==0) 
+            if (ship.getYVel() ==0)
             	ship.setYVel(ship.getYVel() + (int)getYVel()/2);
-            
+
             setYVel(-getYVel());
             ship.setYVel(- ship.getYVel());
 
@@ -103,27 +103,27 @@ public class PlayerShip extends SpaceShip{
             gotHurt(true);
             setTimeHurt(getMaxTimeHurt());
   		    getSoundHurt().play();
-            if (getLifes() <=0) 
-          	    gotDestroy(true); 
+            if (getLifes() <=0)
+          	    gotDestroy(true);
             return true;
         }
         return false;
 	}
-	
+
 	public boolean checkCollision(Bullet bullet) {
 		if(!isHurt() && bullet.getArea().overlaps(getSprite().getBoundingRectangle())){
-            if (getXVel() == 0) 
+            if (getXVel() == 0)
             	setXVel(getXVel() + bullet.getXSpeed() / 2);
-            if (bullet.getXSpeed() == 0) 
+            if (bullet.getXSpeed() == 0)
             	bullet.setXSpeed(bullet.getXSpeed() + (int)getXVel()/2);
             setXVel(-getXVel());
             bullet.setXSpeed(-bullet.getXSpeed());
-            
-            if (getYVel() ==0) 
+
+            if (getYVel() ==0)
             	setYVel(getYVel() + bullet.getYSpeed() / 2);
-            if (bullet.getYSpeed() ==0) 
+            if (bullet.getYSpeed() ==0)
             	bullet.setYSpeed(bullet.getYSpeed() + (int)getYVel()/2);
-            
+
             setYVel(-getYVel());
             bullet.setYSpeed(- bullet.getYSpeed());
 
@@ -131,8 +131,8 @@ public class PlayerShip extends SpaceShip{
             gotHurt(true);
             setTimeHurt(getMaxTimeHurt());
   		    getSoundHurt().play();
-            if (getLifes() <=0) 
-          	    gotDestroy(true); 
+            if (getLifes() <=0)
+          	    gotDestroy(true);
             return true;
         }
         return false;
@@ -140,7 +140,7 @@ public class PlayerShip extends SpaceShip{
 	public Sound getSoundHurt() {
 		return soundHurt;
 	}
-	
+
 	public void setTimeHurt(int timeHurt) {
 		this.timeHurt = timeHurt;
 	}
@@ -150,7 +150,7 @@ public class PlayerShip extends SpaceShip{
 	public int getMaxTimeHurt() {
 		return maxTimeHurt;
 	}
-	
+
 	public boolean isDestroy() {
 		return !hurt && destroy;
 	}
@@ -163,5 +163,11 @@ public class PlayerShip extends SpaceShip{
 	}
 	public void gotHurt(boolean hurt) {
 		this.hurt = hurt;
+	}
+
+	@Override
+	public void activarPoder() {
+		// TODO Auto-generated method stub
+		System.out.println("Poder activado.");
 	}
 }
