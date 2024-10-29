@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Proyecto-videojuego.iml" filepath="$PROJECT_DIR$/.idea/Proyecto-videojuego.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SpaceNav2024.iml" filepath="$PROJECT_DIR$/.idea/modules/SpaceNav2024.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/SpaceNav2024.core.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/SpaceNav2024.lwjgl3.test.iml" />
     </modules>
   </component>
 </project>
