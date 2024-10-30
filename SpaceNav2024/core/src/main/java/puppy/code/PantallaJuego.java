@@ -61,25 +61,26 @@ public class PantallaJuego implements Screen {
 	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         nave.setLifes(vidas);
-        boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
+        /*boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
 	    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-
+*/
         //crear asteroides
 
-	   /*for(int i = 0; i < cantEnemies; i++) {
+	   for(int i = 0; i < cantEnemies; i++) {
 	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("naveEnemiga.png")),
     				new Texture(Gdx.files.internal("disparoEnemigo.png")),
     				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 	    	ships.add(ship);
-	    }*/
-	   ships.add(boss);
+	    }
+	   //ships.add(boss);
 	}
 
 	public void dibujaEncabezado() {
 		CharSequence str = "Vidas: "+nave.getLifes()+" Ronda: "+ronda;
 		game.getFont().getData().setScale(2f);
 		game.getFont().draw(batch, str, 10, 30);
+        game.getFont().draw(batch, "Enemigos restantes: "+ships.size, Gdx.graphics.getWidth()/2-590, 80);
 		game.getFont().draw(batch, "Score:"+this.score, Gdx.graphics.getWidth()-150, 30);
 		game.getFont().draw(batch, "HighScore:"+game.getHighScore(), Gdx.graphics.getWidth()/2-100, 30);
 	}
@@ -147,7 +148,7 @@ public class PantallaJuego implements Screen {
               activarPoderesEspeciales();
 	      }
 	      nave.draw(batch, this);
-          boss.draw(batch, this);
+          //boss.draw(batch, this);
 
 	      //Collisions between player ship and enemy ships.
 	      for (int i = 0; i < ships.size - 1; i++) {
