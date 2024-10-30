@@ -4,98 +4,111 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class PantallaMenu implements Screen {
 
-	private SpaceNavigation game;
-	private OrthographicCamera camera;
-    //private Skin skin;
-    //private Stage stage;
+    private SpaceNavigation game;
+    private OrthographicCamera camera;
+    private Stage stage;
+    private Skin skin;
 
-	public PantallaMenu(SpaceNavigation game) {
-		this.game = game;
+    public PantallaMenu(SpaceNavigation game) {
+        this.game = game;
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, 1200, 800);
 
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1200, 800);
-	}
+        // Configuración de la interfaz gráfica
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
 
-	@Override
-	public void render(float delta) {
-		ScreenUtils.clear(0, 0, 0f, 1);
+        // Carga de la skin para los botones y etiquetas
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
 
-		camera.update();
-		game.getBatch().setProjectionMatrix(camera.combined);
+        // Crear el título
+        Label titleLabel = new Label("Space Navigation", skin, "default");
+        titleLabel.setFontScale(2);  // Tamaño del título
 
-        //stage = new Stage();
-        //Table table = new Table();
-        //table.setPosition(600, 400);
-        //table.setFillParent(true);
-        //table.setHeight(800);
-        //stage.addAction(table);
+        // Crear botones
+        TextButton playButton = new TextButton("Jugar", skin);
+        TextButton tutorialButton = new TextButton("Tutorial", skin);
+        TextButton exitButton = new TextButton("Salir", skin);
 
+        // Añadir listeners a los botones
+        playButton.addListener(event -> {
+            if (Gdx.input.isTouched()) {
+                game.setScreen(new PantallaJuego(game, 1, 3, 0, 10));
+                dispose();
+                return true;
+            }
+            return false;
+        });
 
+        tutorialButton.addListener(event -> {
+            if (Gdx.input.isTouched()) {
+                //game.setScreen(new PantallaTutorial(game));
+                dispose();
+                return true;
+            }
+            return false;
+        });
 
+        exitButton.addListener(event -> {
+            if (Gdx.input.isTouched()) {
+                Gdx.app.exit();
+                return true;
+            }
+            return false;
+        });
 
-		game.getBatch().begin();
-		game.getFont().draw(game.getBatch(), "¡Bienvenido a Space Navigation!", game.getFont().getScaleX() + 200, 700);
-		//game.getFont().draw(game.getBatch(), "Pincha en cualquier lado o presiona cualquier tecla para comenzar ...", 100, 450);
+        // Organizar elementos en una tabla
+        Table table = new Table();
+        table.setFillParent(true);
+        table.top();
+        table.add(titleLabel).padBottom(50).row();
+        table.add(playButton).padBottom(20).row();
+        table.add(tutorialButton).padBottom(20).row();
+        table.add(exitButton);
 
-		game.getBatch().end();
+        // Añadir la tabla al escenario
+        stage.addActor(table);
+    }
 
-		if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-			Screen ss = new PantallaJuego(game,1,3,0,10);
-			ss.resize(1200, 800);
-			game.setScreen(ss);
-			dispose();
-		}
-	}
+    @Override
+    public void render(float delta) {
+        ScreenUtils.clear(0, 0, 0f, 1);
 
+        // Actualizar y dibujar el escenario
+        stage.act(delta);
+        stage.draw();
+    }
 
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
 
-	}
+    @Override
+    public void show() {}
 
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+    @Override
+    public void hide() {}
 
-	}
+    @Override
+    public void pause() {}
 
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
+    @Override
+    public void resume() {}
 
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
+    @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+    }
 }

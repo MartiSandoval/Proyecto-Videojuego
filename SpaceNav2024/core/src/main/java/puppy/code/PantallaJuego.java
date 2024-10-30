@@ -61,10 +61,10 @@ public class PantallaJuego implements Screen {
 	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         nave.setLifes(vidas);
-        /*boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
+        boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
 	    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-*/
+
         //crear asteroides
 
 	   for(int i = 0; i < cantEnemies; i++) {
@@ -73,7 +73,7 @@ public class PantallaJuego implements Screen {
     				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 	    	ships.add(ship);
 	    }
-	   //ships.add(boss);
+	   ships.add(boss);
 	}
 
 	public void dibujaEncabezado() {
@@ -148,7 +148,7 @@ public class PantallaJuego implements Screen {
               activarPoderesEspeciales();
 	      }
 	      nave.draw(batch, this);
-          //boss.draw(batch, this);
+          boss.draw(batch, this);
 
 	      //Collisions between player ship and enemy ships.
 	      for (int i = 0; i < ships.size - 1; i++) {
