@@ -13,10 +13,10 @@ public class PantallaFinal implements Screen {
     private SpaceNavigation game;
     private OrthographicCamera camera;
     private Music gameMusic;
-
-    public PantallaFinal(SpaceNavigation game) {
+    private int score;
+    public PantallaFinal(SpaceNavigation game, int score) {
         this.game = game;
-
+        this.score = score;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1200, 800);/*
         gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game_over_music.wav")); //
@@ -32,10 +32,11 @@ public class PantallaFinal implements Screen {
         camera.update();
         game.getBatch().setProjectionMatrix(camera.combined);
 
+        // cambiar pantalla final
         game.getBatch().begin();
         game.getFont().draw(game.getBatch(), "Felicitaciones, terminaste el juego :D !!! ", 120, 400,400,1,true);
         game.getFont().draw(game.getBatch(), "Pincha en cualquier lado para reiniciar ...", 100, 300);
-
+        game.getFont().draw(game.getBatch(), "Tu puntaje fue: " + score, 100, 200);
         game.getBatch().end();
 
         if (Gdx.input.isTouched() || Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {

@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
 public class BossShip extends SpaceShip {
-    private int bulletSpeed = 2;
+    private int bulletSpeed = 4;
     private int attackCounter = 0;
     private Sprite sprBoss;
 
@@ -20,7 +20,7 @@ public class BossShip extends SpaceShip {
         super(x, y, tx, txBullet, soundBullet);
         sprBoss = new Sprite(tx);
         sprBoss.setBounds(x, y, 80, 80);
-        setLifes(50);
+        setLifes(25);
         attackPatterns = new Array<>();
         attackPatterns.add(new CircularAttackPattern(10));
         attackPatterns.add(new SpiralAttackPattern(3, 10));
@@ -59,7 +59,7 @@ public class BossShip extends SpaceShip {
         	getSoundBullet().play();
             setCooldown(10f);
         } else
-            setCooldown(getCooldown() - 0.1f);
+            setCooldown(getCooldown() - 0.45f);
     }
 
 }

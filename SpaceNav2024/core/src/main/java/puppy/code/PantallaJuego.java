@@ -61,19 +61,22 @@ public class PantallaJuego implements Screen {
 	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         nave.setLifes(vidas);
-        boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
-	    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
-	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 
         //crear naves enemigas
-/*
-	   for(int i = 0; i < cantEnemies; i++) {
-	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("naveEnemiga.png")),
-    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
-    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-	    	ships.add(ship);
-	    }*/
-	   ships.add(boss);
+        if (ronda != 3) {
+            for (int i = 0; i < cantEnemies; i++) {
+                SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50, Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60), new Texture(Gdx.files.internal("naveEnemiga.png")),
+                    new Texture(Gdx.files.internal("disparoEnemigo.png")),
+                    Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+                ships.add(ship);
+            }
+        }
+       if (ronda == 3) {
+            boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
+                new Texture(Gdx.files.internal("disparoEnemigo.png")),
+                Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+            ships.add(boss);
+       }
 	}
 
 	public void dibujaEncabezado() {
@@ -104,11 +107,14 @@ public class PantallaJuego implements Screen {
 
 	    				  enemyShip.setLifes(enemyShip.getLifes() - 1);
 
-	    				  if(enemyShip.getLifes() <= 0){
+	    				  if(enemyShip.getLifes() <= 0 && enemyShip != boss){
 	    					  ships.removeIndex(j);
 	    					  j--;
 	    					  score += 10;
 	    				  }
+                          if (boss != null && boss.getLifes() <= 0){
+                              score += 100;
+                          }
 	    			  }
 	    		  }
 
@@ -117,10 +123,12 @@ public class PantallaJuego implements Screen {
     				  i--;
     			  }
 	    	  }
-	       	  for(int i = 0; i < ships.size; i++) {
-	       		  SpaceShip enemyShip = ships.get(i);
-	       		  enemyShip.draw(batch, this);
-	       	  }
+	       	  if (boss == null) {
+                  for (int i = 0; i < ships.size; i++) {
+                      SpaceShip enemyShip = ships.get(i);
+                      enemyShip.draw(batch, this);
+                  }
+              }
 
 		      //Collisions between enemies.
 		      for (int i = 0; i< ships.size - 1; i++) {
@@ -148,7 +156,8 @@ public class PantallaJuego implements Screen {
               activarPoderesEspeciales();
 	      }
 	      nave.draw(batch, this);
-          boss.draw(batch, this);
+          if (boss != null)
+            boss.draw(batch, this);
 
 	      //Collisions between player ship and enemy ships.
 	      for (int i = 0; i < ships.size - 1; i++) {
@@ -162,7 +171,7 @@ public class PantallaJuego implements Screen {
 	    	    		nave.setLifes(0);
 	    	    		break;
 	    	    	}
-              }
+                }
   	        }
 
 	      //Checks if the player ships has been destroy.
@@ -175,22 +184,21 @@ public class PantallaJuego implements Screen {
   			dispose();
   		  }
 	      batch.end();
-          if (ronda == 2) {
-              if (score > game.getHighScore())
-                  game.setHighScore(score);
-              Screen ss = new PantallaFinal(game);
+
+	      //nivel completado
+	      if (ships.size == 0) {
+              Screen ss = new PantallaJuego(game, ronda + 1, nave.getLifes() + 1, score,
+                  cantEnemies + 5);
               ss.resize(1200, 800);
               game.setScreen(ss);
               dispose();
           }
-	      //nivel completado
-	      if (ships.size == 0) {
-			Screen ss = new PantallaJuego(game,ronda+1, nave.getLifes(), score,
-					 cantEnemies+5);
-			ss.resize(1200, 800);
-			game.setScreen(ss);
-			dispose();
-		  }
+          if (boss != null && boss.getLifes() <= 0) {
+              Screen ss = new PantallaFinal(game, score);
+              ss.resize(1200, 800);
+              game.setScreen(ss);
+              dispose();
+          }
 
 	}
 
