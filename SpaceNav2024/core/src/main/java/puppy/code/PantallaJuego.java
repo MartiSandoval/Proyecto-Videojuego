@@ -65,14 +65,14 @@ public class PantallaJuego implements Screen {
 	    				new Texture(Gdx.files.internal("disparoEnemigo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 
-        //crear asteroides
-
+        //crear naves enemigas
+/*
 	   for(int i = 0; i < cantEnemies; i++) {
 	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("naveEnemiga.png")),
     				new Texture(Gdx.files.internal("disparoEnemigo.png")),
     				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 	    	ships.add(ship);
-	    }
+	    }*/
 	   ships.add(boss);
 	}
 
