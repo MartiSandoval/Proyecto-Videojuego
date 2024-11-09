@@ -63,7 +63,7 @@ public class PantallaJuego implements Screen {
         nave.setLifes(vidas);
 
         //crear naves enemigas
-        if (ronda != 3) {
+        if (ronda % 3 != 0) {
             for (int i = 0; i < cantEnemies; i++) {
                 SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50, Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60), new Texture(Gdx.files.internal("naveEnemiga.png")),
                     new Texture(Gdx.files.internal("disparoEnemigo.png")),
@@ -71,7 +71,7 @@ public class PantallaJuego implements Screen {
                 ships.add(ship);
             }
         }
-       if (ronda == 3) {
+       if (ronda % 3 == 0) {
             boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
                 new Texture(Gdx.files.internal("disparoEnemigo.png")),
                 Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
@@ -194,7 +194,7 @@ public class PantallaJuego implements Screen {
               dispose();
           }
           if (boss != null && boss.getLifes() <= 0) {
-              Screen ss = new PantallaFinal(game, score);
+              Screen ss = new PantallaJuego(game, ronda + 1, nave.getLifes() + 1, score, cantEnemies + 5);
               ss.resize(1200, 800);
               game.setScreen(ss);
               dispose();
