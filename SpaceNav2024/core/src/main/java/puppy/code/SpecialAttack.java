@@ -1,5 +1,5 @@
 package puppy.code;
 
-public interface PoderEspecial {
+public interface SpecialAttack {
     void activarPoder();
 }

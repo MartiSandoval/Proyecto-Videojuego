@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-public class PlayerShip extends SpaceShip implements PoderEspecial{
+public class PlayerShip extends SpaceShip implements SpecialAttack {
     private int maxTimeHurt = 50;
     private int timeHurt;
     private Sound soundHurt;

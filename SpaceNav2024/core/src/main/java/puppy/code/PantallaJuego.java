@@ -30,7 +30,7 @@ public class PantallaJuego implements Screen {
 
 	private Array<SpaceShip> ships = new Array<>();
 	private  ArrayList<Bullet> balas = new ArrayList<>();
-    private ArrayList<PoderEspecial> PoderesEspeciales = new ArrayList<>();
+    private ArrayList<SpecialAttack> PoderesEspeciales = new ArrayList<>();
 
 
 	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies) {
@@ -207,7 +207,7 @@ public class PantallaJuego implements Screen {
     }
 
     public void activarPoderesEspeciales(){
-        for(PoderEspecial p: PoderesEspeciales){
+        for(SpecialAttack p: PoderesEspeciales){
             p.activarPoder();
         }
     }

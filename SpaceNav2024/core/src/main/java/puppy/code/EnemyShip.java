@@ -36,7 +36,7 @@ public class EnemyShip extends SpaceShip{
 	}
 
 	@Override
-	protected void attack(PantallaJuego juego) {
+    protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		if(getCooldown() <= 0) {
 			Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-4,getBullet(), false);
