@@ -5,14 +5,17 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class EnemyShip extends SpaceShip implements PoderEspecial{
-    private float cooldown;
+public class EnemyShip extends SpaceShip{
 	private Random ran = new Random();
+    private Sprite sprNav;
 
 	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, txBullet, soundBullet);
+        sprNav = new Sprite(tx);
+        sprNav.setBounds(x, y, 45, 45);
 		setLifes(2);
 		setMovementSpeed((ran.nextFloat(4 - 2 + 1)) + 2);
 	}
@@ -36,10 +39,10 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 	protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		if(getCooldown() <= 0) {
-			//Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-3,getBullet(), false);
-			//bullet.setRotation(180);
+			Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-4,getBullet(), false);
+			bullet.setRotation(180);
 
-			//juego.agregarBala(bullet);
+			juego.agregarBala(bullet);
 			getSoundBullet().play();
 			setCooldown(ran.nextFloat(15 - 10 + 1) + 10);
 		}
@@ -73,17 +76,4 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 		return false;
 	}
 
-	@Override
-	public void activarPoder() {
-		// TODO Auto-generated method stub
-		System.out.println("Poder activado.");
-	}
-
-    public float getCooldown() {
-        return cooldown;
-    }
-
-    public void setCooldown(float cooldown) {
-        this.cooldown = cooldown;
-    }
 }

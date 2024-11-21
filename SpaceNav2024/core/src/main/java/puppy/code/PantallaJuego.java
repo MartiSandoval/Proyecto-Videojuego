@@ -32,6 +32,7 @@ public class PantallaJuego implements Screen {
 	private  ArrayList<Bullet> balas = new ArrayList<>();
     private ArrayList<PoderEspecial> PoderesEspeciales = new ArrayList<>();
 
+
 	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies) {
 		this.game = game;
 		this.ronda = ronda;
@@ -40,10 +41,12 @@ public class PantallaJuego implements Screen {
 		this.cantEnemies = cantEnemies;
 
 		Random ran = new Random();
+
 		batch = game.getBatch();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 640);
 
+		//inicializar assets; musica de fondo y efectos de sonido
 		explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
 		explosionSound.setVolume(1,0.25f);
 		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("DavidKBD - Electric Pulse - 09 - Vapor Trails Pursuit-short.wav")); //
@@ -52,33 +55,35 @@ public class PantallaJuego implements Screen {
 		gameMusic.setVolume(0.5f);
 		gameMusic.play();
 
-
-	    nave = new PlayerShip(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("MainShip3.png")),
+	    // cargar imagen de la nave, 64x64
+	    nave = new PlayerShip(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-	    				new Texture(Gdx.files.internal("Rocket2.png")),
+	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         nave.setLifes(vidas);
-        boss = new BossShip(Gdx.graphics.getWidth()/2-50,Gdx.graphics.getHeight() - 100,new Texture(Gdx.files.internal("Nairan - Dreadnought - Base.png")),
-	    				new Texture(Gdx.files.internal("Rocket2.png")),
-	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
 
-	   for(int i = 0; i < cantEnemies; i++) {
-	    	SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50,Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60),new Texture(Gdx.files.internal("Nairan - Battlecruiser - Base.png")),
-    				new Texture(Gdx.files.internal("Rocket2.png")),
-    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-	    	ships.add(ship);
-	    }
-	   ships.add(boss);
+        //crear naves enemigas
+        if (ronda % 3 != 0) {
+            for (int i = 0; i < cantEnemies; i++) {
+                SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50, Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60), new Texture(Gdx.files.internal("naveEnemiga.png")),
+                    new Texture(Gdx.files.internal("disparoEnemigo.png")),
+                    Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+                ships.add(ship);
+            }
+        }
+       if (ronda % 3 == 0) {
+            boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
+                new Texture(Gdx.files.internal("disparoEnemigo.png")),
+                Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+            ships.add(boss);
+       }
 	}
 
-    public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies, int i, int i1) {
-    }
-
-    public void dibujaEncabezado() {
+	public void dibujaEncabezado() {
 		CharSequence str = "Vidas: "+nave.getLifes()+" Ronda: "+ronda;
 		game.getFont().getData().setScale(2f);
-
 		game.getFont().draw(batch, str, 10, 30);
+        game.getFont().draw(batch, "Enemigos restantes: "+ships.size, Gdx.graphics.getWidth()/2-590, 80);
 		game.getFont().draw(batch, "Score:"+this.score, Gdx.graphics.getWidth()-150, 30);
 		game.getFont().draw(batch, "HighScore:"+game.getHighScore(), Gdx.graphics.getWidth()/2-100, 30);
 	}
@@ -102,11 +107,14 @@ public class PantallaJuego implements Screen {
 
 	    				  enemyShip.setLifes(enemyShip.getLifes() - 1);
 
-	    				  if(enemyShip.getLifes() <= 0){
+	    				  if(enemyShip.getLifes() <= 0 && enemyShip != boss){
 	    					  ships.removeIndex(j);
 	    					  j--;
 	    					  score += 10;
 	    				  }
+                          if (boss != null && boss.getLifes() <= 0){
+                              score += 100;
+                          }
 	    			  }
 	    		  }
 
@@ -115,10 +123,12 @@ public class PantallaJuego implements Screen {
     				  i--;
     			  }
 	    	  }
-	       	  for(int i = 0; i < ships.size; i++) {
-	       		  SpaceShip enemyShip = ships.get(i);
-	       		  enemyShip.draw(batch, this);
-	       	  }
+	       	  if (boss == null) {
+                  for (int i = 0; i < ships.size; i++) {
+                      SpaceShip enemyShip = ships.get(i);
+                      enemyShip.draw(batch, this);
+                  }
+              }
 
 		      //Collisions between enemies.
 		      for (int i = 0; i< ships.size - 1; i++) {
@@ -146,7 +156,9 @@ public class PantallaJuego implements Screen {
               activarPoderesEspeciales();
 	      }
 	      nave.draw(batch, this);
-	      boss.draw(batch, this);
+          if (boss != null)
+            boss.draw(batch, this);
+
 	      //Collisions between player ship and enemy ships.
 	      for (int i = 0; i < ships.size - 1; i++) {
 	    	    EnemyShip enemyShip = (EnemyShip) ships.get(i);
@@ -159,7 +171,7 @@ public class PantallaJuego implements Screen {
 	    	    		nave.setLifes(0);
 	    	    		break;
 	    	    	}
-              }
+                }
   	        }
 
 	      //Checks if the player ships has been destroy.
@@ -172,14 +184,21 @@ public class PantallaJuego implements Screen {
   			dispose();
   		  }
 	      batch.end();
+
 	      //nivel completado
 	      if (ships.size == 0) {
-			Screen ss = new PantallaJuego(game,ronda+1, nave.getLifes(), score,
-					 cantEnemies+5);
-			ss.resize(1200, 800);
-			game.setScreen(ss);
-			dispose();
-		  }
+              Screen ss = new PantallaJuego(game, ronda + 1, nave.getLifes() + 1, score,
+                  cantEnemies + 5);
+              ss.resize(1200, 800);
+              game.setScreen(ss);
+              dispose();
+          }
+          if (boss != null && boss.getLifes() <= 0) {
+              Screen ss = new PantallaJuego(game, ronda + 1, nave.getLifes() + 1, score, cantEnemies + 5);
+              ss.resize(1200, 800);
+              game.setScreen(ss);
+              dispose();
+          }
 
 	}
 
