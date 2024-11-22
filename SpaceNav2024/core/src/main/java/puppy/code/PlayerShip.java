@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class PlayerShip extends SpaceShip implements SpecialAttack {
-    private int maxTimeHurt = 50;
+    final int maxTimeHurt = 50;
     private int timeHurt;
-    private Sound soundHurt;
+    final Sound soundHurt;
     private boolean hurt = false;
     private boolean destroy = false;
-    private Sprite sprNav;
+    final Sprite sprNav;
 
     public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
         super(x, y, tx, txBullet, soundBullet);
@@ -33,7 +33,7 @@ public class PlayerShip extends SpaceShip implements SpecialAttack {
         float x = getX();
         float y = getY();
 
-        if(!isHurt()) {
+        if(isHurt()) {
             movement();
 
             if(x + getXVel() < 0 || x + getXVel() + getSprite().getWidth() > Gdx.graphics.getWidth())
@@ -89,18 +89,18 @@ public class PlayerShip extends SpaceShip implements SpecialAttack {
 
 
     public boolean checkCollision(SpaceShip ship) {
-        if(!isHurt() && ship.getArea().overlaps(getSprite().getBoundingRectangle())){
+        if(isHurt() && ship.getArea().overlaps(getSprite().getBoundingRectangle())){
             if (getXVel() == 0)
                 setXVel(getXVel() + ship.getXVel() / 2);
             if (ship.getXVel() == 0)
-                ship.setXVel(ship.getXVel() + (int)getXVel()/2);
+                ship.setXVel(ship.getXVel() + getXVel()/2);
             setXVel(-getXVel());
             ship.setXVel(-ship.getXVel());
 
             if (getYVel() ==0)
                 setYVel(getYVel() + ship.getYVel() / 2);
             if (ship.getYVel() ==0)
-                ship.setYVel(ship.getYVel() + (int)getYVel()/2);
+                ship.setYVel(ship.getYVel() + getYVel()/2);
 
             setYVel(-getYVel());
             ship.setYVel(- ship.getYVel());
@@ -117,18 +117,18 @@ public class PlayerShip extends SpaceShip implements SpecialAttack {
     }
 
     public boolean checkCollision(Bullet bullet) {
-        if(!isHurt() && bullet.getArea().overlaps(getSprite().getBoundingRectangle())){
+        if(isHurt() && bullet.getArea().overlaps(getSprite().getBoundingRectangle())){
             if (getXVel() == 0)
                 setXVel(getXVel() + bullet.getXSpeed() / 2);
             if (bullet.getXSpeed() == 0)
-                bullet.setXSpeed(bullet.getXSpeed() + (int)getXVel()/2);
+                bullet.setXSpeed(bullet.getXSpeed() + getXVel()/2);
             setXVel(-getXVel());
             bullet.setXSpeed(-bullet.getXSpeed());
 
             if (getYVel() ==0)
                 setYVel(getYVel() + bullet.getYSpeed() / 2);
             if (bullet.getYSpeed() ==0)
-                bullet.setYSpeed(bullet.getYSpeed() + (int)getYVel()/2);
+                bullet.setYSpeed(bullet.getYSpeed() + getYVel()/2);
 
             setYVel(-getYVel());
             bullet.setYSpeed(- bullet.getYSpeed());
@@ -169,7 +169,7 @@ public class PlayerShip extends SpaceShip implements SpecialAttack {
     }
 
     public boolean isHurt() {
-        return hurt;
+        return !hurt;
     }
     public void gotHurt(boolean hurt) {
         this.hurt = hurt;

@@ -61,7 +61,7 @@ public class PantallaJuego implements Screen {
 		gameMusic.play();
 
 	    // cargar imagen de la nave, 64x64
-        ship = (PlayerShip) shipFactory.createPlayerShip(Gdx.graphics.getWidth()/2-50, 30, new Texture(Gdx.files.internal("naveJugador.png")),
+        ship = (PlayerShip) shipFactory.createPlayerShip((float) Gdx.graphics.getWidth() /2-50, 30, new Texture(Gdx.files.internal("naveJugador.png")),
             Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
             new Texture(Gdx.files.internal("disparo.png")),
             Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
@@ -118,7 +118,7 @@ public class PantallaJuego implements Screen {
           batch.begin();
 		  dibujaEncabezado();
 
-	      if (!ship.isHurt()) {
+	      if (ship.isHurt()) {
 	    	  //Collision between player bullets and enemy ships.
 	       	  for(int i = 0; i < balas.size(); i++) {
 	    		  Bullet bullet = balas.get(i);

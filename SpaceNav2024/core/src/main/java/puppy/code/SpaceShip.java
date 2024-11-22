@@ -12,10 +12,10 @@ public abstract class SpaceShip {
     private int lifes;
     private float xVel = 0;
     private float yVel = 0;
-    private Sprite spr;
+    final Sprite spr;
 
-    private Sound soundBullet;
-    private Texture txBullet;
+    final Sound soundBullet;
+    final Texture txBullet;
     private float cooldown = 0;
 
     public SpaceShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
@@ -24,8 +24,6 @@ public abstract class SpaceShip {
         spr = new Sprite(tx);
         spr.setPosition(x, y);
         //spr.setBounds(x,  y,  45,  45);
-    }
-    public SpaceShip() {
     }
 
     public abstract void draw(SpriteBatch batch, PantallaJuego juego);
