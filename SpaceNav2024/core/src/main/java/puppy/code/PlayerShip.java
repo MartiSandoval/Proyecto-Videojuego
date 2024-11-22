@@ -14,27 +14,30 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
     private Sound soundHurt;
     private boolean hurt = false;
     private boolean destroy = false;
-    private Sprite sprNav;
     
     private static PlayerShip playerShip;
-
-    private PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
-        super(x, y, tx, txBullet, soundBullet);
-        sprNav = new Sprite(tx);
-        sprNav.setBounds(x, y, 45, 45);
-
-        setMovementSpeed(7);
-        this.soundHurt = soundCollision;
-        setLifes(3);
+    
+    private PlayerShip() {
+    	
     }
     
-    public static PlayerShip getInstanceOf(float x, float y, Texture tx, Sound sc, Texture txB, Sound sb) {
+    public static PlayerShip getInstance() {
     	if(playerShip == null)
-    		playerShip = new PlayerShip(x, y, tx, sc, txB, sb);
+    		playerShip = new PlayerShip();
     	return playerShip;
     }
-    public static PlayerShip getPlayer() {
-    	return playerShip;
+    public void setPlayer(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
+    	setSprite(new Sprite(tx));
+    	getSprite().setPosition(x, y);
+    	
+    	setSoundBullet(soundBullet);
+    	setTxBullet(txBullet);
+    	
+    	setMovementSpeed(7);
+    	this.soundHurt = soundCollision;
+    	setLifes(3);
+    	gotDestroy(false);
+    	
     }
     
     @Override

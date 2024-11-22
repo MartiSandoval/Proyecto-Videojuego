@@ -25,7 +25,6 @@ public class PantallaJuego implements Screen {
 	private int ronda;
 	private int cantEnemies;
 
-	//private PlayerShip nave;
 	private BossShip boss;
 
 	private Array<SpaceShip> ships = new Array<>();
@@ -39,7 +38,6 @@ public class PantallaJuego implements Screen {
 		this.score = score;
 
 		this.cantEnemies = cantEnemies;
-
 		Random ran = new Random();
 
 		batch = game.getBatch();
@@ -64,13 +62,12 @@ public class PantallaJuego implements Screen {
       
         nave.setLifes(vidas);
 		 */	
-		PlayerShip.getInstanceOf(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
-				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-				new Texture(Gdx.files.internal("disparo.png")),
-				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3"))).gotDestroy(false);
+		PlayerShip.getInstance();
+		PlayerShip.getInstance().setPlayer(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
+	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
+	    				new Texture(Gdx.files.internal("disparo.png")),
+	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         
-		PlayerShip.getPlayer().setLifes(3);
-		PlayerShip.getPlayer().setPos(Gdx.graphics.getWidth()/2-50,30);
         //crear naves enemigas
         if (ronda != 3) {
             for (int i = 0; i < cantEnemies; i++) {
@@ -89,7 +86,7 @@ public class PantallaJuego implements Screen {
 	}
 
 	public void dibujaEncabezado() {
-		CharSequence str = "Vidas: "+ PlayerShip.getPlayer().getLifes()+" Ronda: "+ronda;
+		CharSequence str = "Vidas: "+ PlayerShip.getInstance().getLifes()+" Ronda: "+ronda;
 		game.getFont().getData().setScale(2f);
 		game.getFont().draw(batch, str, 10, 30);
         game.getFont().draw(batch, "Enemigos restantes: "+ships.size, Gdx.graphics.getWidth()/2-590, 80);
@@ -102,7 +99,7 @@ public class PantallaJuego implements Screen {
           batch.begin();
 		  dibujaEncabezado();
 
-	      if (!PlayerShip.getPlayer().isHurt()) {
+	      if (!PlayerShip.getInstance().isHurt()) {
 	    	  //Collision between player bullets and enemy ships.
 	       	  for(int i = 0; i < balas.size(); i++) {
 	    		  Bullet bullet = balas.get(i);
@@ -151,7 +148,7 @@ public class PantallaJuego implements Screen {
 
 		      for(int i = 0; i < balas.size(); i++) {
 		    	  Bullet bullet = balas.get(i);
-		    	  if(!bullet.isPlayerBullet() && PlayerShip.getPlayer().checkCollision(bullet)) {
+		    	  if(!bullet.isPlayerBullet() && PlayerShip.getInstance().checkCollision(bullet)) {
 		    		  explosionSound.play();
 		    		  balas.remove(i);
 		    		  i--;
@@ -164,7 +161,7 @@ public class PantallaJuego implements Screen {
 	          b.draw(batch);
               activarPoderesEspeciales();
 	      }
-	      PlayerShip.getPlayer().draw(batch, this);
+	      PlayerShip.getInstance().draw(batch, this);
           if (boss != null)
             boss.draw(batch, this);
 
@@ -172,19 +169,19 @@ public class PantallaJuego implements Screen {
 	      for (int i = 0; i < ships.size - 1; i++) {
 	    	    EnemyShip enemyShip = (EnemyShip) ships.get(i);
 	    	    enemyShip.showShip(batch);
-	    	    if (PlayerShip.getPlayer().checkCollision(enemyShip)) {
+	    	    if (PlayerShip.getInstance().checkCollision(enemyShip)) {
 	    	    	explosionSound.play();
 	    	    	ships.removeIndex(i);
 	    	    	i--;
-	    	    	if(PlayerShip.getPlayer().getLifes() <= 0) {
-	    	    		PlayerShip.getPlayer().setLifes(0);
+	    	    	if(PlayerShip.getInstance().getLifes() <= 0) {
+	    	    		PlayerShip.getInstance().setLifes(0);
 	    	    		break;
 	    	    	}
                 }
   	        }
 
 	      //Checks if the player ships has been destroy.
-	      if (PlayerShip.getPlayer().isDestroy()) {
+	      if (PlayerShip.getInstance().isDestroy()) {
   			if (score > game.getHighScore())
   				game.setHighScore(score);
 	    	Screen ss = new PantallaGameOver(game);
@@ -196,7 +193,7 @@ public class PantallaJuego implements Screen {
 
 	      //nivel completado
 	      if (ships.size == 0) {
-              Screen ss = new PantallaJuego(game, ronda + 1, PlayerShip.getPlayer().getLifes() + 1, score,
+              Screen ss = new PantallaJuego(game, ronda + 1, PlayerShip.getInstance().getLifes() + 1, score,
                   cantEnemies + 5);
               ss.resize(1200, 800);
               game.setScreen(ss);

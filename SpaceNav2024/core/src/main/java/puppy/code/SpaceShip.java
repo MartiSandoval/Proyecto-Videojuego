@@ -45,8 +45,17 @@ public abstract class SpaceShip {
     public Texture getBullet() {
         return txBullet;
     }
+    public void setTxBullet(Texture txBullet) {
+    	this.txBullet = txBullet; 
+    }
+    public void setSoundBullet(Sound soundBullet) {
+    	this.soundBullet = soundBullet;
+    }
     public Sprite getSprite() {
         return spr;
+    }
+    public void setSprite(Sprite spr) {
+    	this.spr = spr;
     }
     public Sound getSoundBullet() {
         return soundBullet;
