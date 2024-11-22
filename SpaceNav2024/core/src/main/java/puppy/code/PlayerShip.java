@@ -15,8 +15,10 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
     private boolean hurt = false;
     private boolean destroy = false;
     private Sprite sprNav;
+    
+    private static PlayerShip playerShip;
 
-    public PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
+    private PlayerShip(float x, float y, Texture tx, Sound soundCollision, Texture txBullet, Sound soundBullet) {
         super(x, y, tx, txBullet, soundBullet);
         sprNav = new Sprite(tx);
         sprNav.setBounds(x, y, 45, 45);
@@ -25,7 +27,16 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
         this.soundHurt = soundCollision;
         setLifes(3);
     }
-
+    
+    public static PlayerShip getInstanceOf(float x, float y, Texture tx, Sound sc, Texture txB, Sound sb) {
+    	if(playerShip == null)
+    		playerShip = new PlayerShip(x, y, tx, sc, txB, sb);
+    	return playerShip;
+    }
+    public static PlayerShip getPlayer() {
+    	return playerShip;
+    }
+    
     @Override
     public void draw(SpriteBatch batch, PantallaJuego juego) {
         // TODO Auto-generated method stub
@@ -166,6 +177,9 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
     }
     public void gotDestroy(boolean destroy) {
         this.destroy = destroy;
+    }
+    public void setPos(float x, float y) {
+    	getSprite().setPosition(x, y);
     }
 
     public boolean isHurt() {
