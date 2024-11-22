@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnemyShip extends SpaceShip{
-	private Random ran = new Random();
-    private Sprite sprNav;
+	final Random ran = new Random();
+    final Sprite sprNav;
 
 	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, txBullet, soundBullet);
@@ -66,13 +66,12 @@ public class EnemyShip extends SpaceShip{
 			if (getXVel() == 0)
 				setXVel(getXVel() + ship.getXVel()/2);
 			if (ship.getXVel() == 0)
-				ship.setXVel(-(ship.getXVel() + (int)getXVel()/2));
+				ship.setXVel(-(ship.getXVel() + getXVel()/2));
 			setMovementSpeed(this.getMovementSpeed() * -1);
             ship.setMovementSpeed(ship.getMovementSpeed() * -1);
 
             return true;
 		}
-
 		return false;
 	}
 

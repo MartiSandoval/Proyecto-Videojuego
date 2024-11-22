@@ -25,18 +25,14 @@ public class PantallaJuego implements Screen {
 	private int ronda;
 	private int cantEnemies;
 
-	//private PlayerShip nave;
-	//private BossShip boss;
-
     private PlayerShip ship;
-    private BossShip boss;
+    private SpaceShip boss;
 
 	private Array<SpaceShip> ships = new Array<>();
 	private  ArrayList<Bullet> balas = new ArrayList<>();
     private ArrayList<SpecialAttack> PoderesEspeciales = new ArrayList<>();
 
-    private ShipFactory shipFactory;
-
+    private final ShipFactory shipFactory = new SpaceShipFactory();
 
 	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies) {
 		this.game = game;
@@ -44,8 +40,6 @@ public class PantallaJuego implements Screen {
 		this.score = score;
 
 		this.cantEnemies = cantEnemies;
-
-        shipFactory = new SpaceShipFactory();
 
 		batch = game.getBatch();
 		camera = new OrthographicCamera();
@@ -61,7 +55,7 @@ public class PantallaJuego implements Screen {
 		gameMusic.play();
 
 	    // cargar imagen de la nave, 64x64
-        ship = (PlayerShip) shipFactory.createPlayerShip((float) Gdx.graphics.getWidth() /2-50, 30, new Texture(Gdx.files.internal("naveJugador.png")),
+        ship = new PlayerShip((float) Gdx.graphics.getWidth() /2-50, 30, new Texture(Gdx.files.internal("naveJugador.png")),
             Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
             new Texture(Gdx.files.internal("disparo.png")),
             Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
@@ -74,30 +68,25 @@ public class PantallaJuego implements Screen {
             }
         }
        if (ronda % 3 == 0) {
-            ships.add(createShips(3));
+           boss = createShips(3);
+            ships.add(boss);
        }
 	}
 
     public SpaceShip createShips(int typeShip){
-        //nave tipo 1 = player -> no se usa porque tiene un tipo especial de metodos, no es generica no va en la fabrica
-        //nave tipo 2 = enemy
-        //nave tipo 3 = boss
+        //nave tipo 0 = player -> no se usa porque tiene un tipo especial de metodos, no es generica no va en la fabrica
+        //nave tipo 1 = enemy
+        //nave tipo 2 = boss
 
         Random ran = new Random();
 
         if(typeShip == 1){
-            return shipFactory.createPlayerShip(Gdx.graphics.getWidth()/2-50, 30, new Texture(Gdx.files.internal("naveJugador.png")),
-                Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-                new Texture(Gdx.files.internal("disparo.png")),
-                Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-        }
-        else if(typeShip == 2){
             return shipFactory.createEnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50, Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60), new Texture(Gdx.files.internal("naveEnemiga.png")),
                 new Texture(Gdx.files.internal("disparoEnemigo.png")),
                 Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         }
-        else if(typeShip == 3){
-            return shipFactory.createBossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
+        else if(typeShip == 2){
+            return shipFactory.createBossShip((float) Gdx.graphics.getWidth() /2 - 250, (float) Gdx.graphics.getHeight() /2 + 110,new Texture(Gdx.files.internal("boss.png")),
                 new Texture(Gdx.files.internal("disparoEnemigo.png")),
                 Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
         }
