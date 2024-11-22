@@ -48,11 +48,11 @@ public class PantallaJuego implements Screen {
 
 		//inicializar assets; musica de fondo y efectos de sonido
 		explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
-		explosionSound.setVolume(1,0.25f);
+		explosionSound.setVolume(1,0.1f);
 		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("DavidKBD - Electric Pulse - 09 - Vapor Trails Pursuit-short.wav")); //
 
 		gameMusic.setLooping(true);
-		gameMusic.setVolume(0.5f);
+		gameMusic.setVolume(0.1f);
 		gameMusic.play();
 
 	    // cargar imagen de la nave, 64x64
@@ -61,14 +61,14 @@ public class PantallaJuego implements Screen {
 	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
 	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-      
+
         nave.setLifes(vidas);
-		 */	
+		 */
 		PlayerShip.getInstanceOf(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
 				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
 				new Texture(Gdx.files.internal("disparo.png")),
 				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3"))).gotDestroy(false);
-        
+
 		PlayerShip.getPlayer().setLifes(3);
 		PlayerShip.getPlayer().setPos(Gdx.graphics.getWidth()/2-50,30);
         //crear naves enemigas
@@ -203,12 +203,11 @@ public class PantallaJuego implements Screen {
               dispose();
           }
           if (boss != null && boss.getLifes() <= 0) {
-              Screen ss = new PantallaJuego(game, ronda + 1, nave.getLifes() + 1, score, cantEnemies + 5);
+              Screen ss = new PantallaFinal(game, score);
               ss.resize(1200, 800);
               game.setScreen(ss);
               dispose();
           }
-
 	}
 
     public boolean agregarBala(Bullet bb) {
