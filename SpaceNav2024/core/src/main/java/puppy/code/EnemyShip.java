@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class EnemyShip extends SpaceShip implements PoderEspecial{
@@ -17,6 +18,7 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 		setMovementSpeed((ran.nextFloat(4 - 2 + 1)) + 2);
 	}
 	
+
 	@Override
 	public void draw(SpriteBatch batch, PantallaJuego juego) {
 		// TODO Auto-generated method stub
@@ -33,7 +35,7 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 	}
 
 	@Override
-	protected void attack(PantallaJuego juego) {
+    protected void attack(PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		if(getCooldown() <= 0) {
 			Bullet bullet = new Bullet(getSprite().getX()+getSprite().getWidth()/2-5, getSprite().getY() - 20,0,-4,getBullet(), false);
@@ -45,7 +47,7 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 			setCooldown(ran.nextFloat(15 - 10 + 1) + 10);
 		}
 		else
-			setCooldown(getCooldown() - 0.1f);
+			setCooldown(getCooldown() - 0.05f);
 	}
 
 	private void movement() {
@@ -65,13 +67,12 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 			if (getXVel() == 0)
 				setXVel(getXVel() + ship.getXVel()/2);
 			if (ship.getXVel() == 0)
-				ship.setXVel(-(ship.getXVel() + (int)getXVel()/2));
+				ship.setXVel(-(ship.getXVel() + getXVel()/2));
 			setMovementSpeed(this.getMovementSpeed() * -1);
             ship.setMovementSpeed(ship.getMovementSpeed() * -1);
 
             return true;
 		}
-
 		return false;
 	}
 
@@ -81,4 +82,5 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 		System.out.println("Poder activado.");
 	}
 	
+
 }

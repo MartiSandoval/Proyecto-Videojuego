@@ -2,6 +2,7 @@ package puppy.code;
 
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -18,11 +19,12 @@ public class BossShip extends SpaceShip {
     public BossShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
         super(x, y, tx, txBullet, soundBullet);
         setLifes(4);
+
         attackPatterns = new Array<>();
-        attackPatterns.add(new CircularAttackPattern(10));
-        attackPatterns.add(new SpiralAttackPattern(3, 10));
-        attackPatterns.add(new WaveAttackPattern(10));
-        attackPatterns.add(new SweepAttackPattern(0, 180, 10));
+        attackPatterns.add(new CircularAttackPattern(6));
+        attackPatterns.add(new SpiralAttackPattern(3, 6));
+        attackPatterns.add(new WaveAttackPattern(6));
+        attackPatterns.add(new SweepAttackPattern(0, 200, 6));
         attackPatterns.add(new StarAttackPattern());
 
         selectRandomAttackPattern();
@@ -33,7 +35,7 @@ public class BossShip extends SpaceShip {
         float x = getX();
         float y = getY();
 
-        getSprite().setPosition(x + getXVel(), y + getYVel());
+        //movement();
         getSprite().draw(batch);
         
         attack(juego);
@@ -58,7 +60,7 @@ public class BossShip extends SpaceShip {
 
         } else 
             setCooldown(getCooldown() - 0.1f);
-    }
 
+    }
 }
 

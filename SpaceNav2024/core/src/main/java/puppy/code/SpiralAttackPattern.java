@@ -15,7 +15,10 @@ public class SpiralAttackPattern implements AttackPattern{
     public void execute(BossShip boss, PantallaJuego juego, float bulletSpeed) {
         float totalAngle = 360f / numEspirales;
         float angleStep = totalAngle / cantidadBalas;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6b2958f2d8cbe1aebe181f96ca78dc44f33ed24e
 
         for (int i = 0; i < cantidadBalas; i++) {
             final int index = i;
@@ -24,6 +27,10 @@ public class SpiralAttackPattern implements AttackPattern{
                 @Override
                 public void run() {
                     for (int j = 0; j < numEspirales; j++) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6b2958f2d8cbe1aebe181f96ca78dc44f33ed24e
                         float angle = index * angleStep + j * totalAngle;
 
 
@@ -39,7 +46,10 @@ public class SpiralAttackPattern implements AttackPattern{
                     }
                 }
             }, index * 0.1f);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6b2958f2d8cbe1aebe181f96ca78dc44f33ed24e
         }
     }
 }
