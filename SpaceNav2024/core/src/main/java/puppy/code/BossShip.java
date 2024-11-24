@@ -4,23 +4,20 @@ import java.util.Random;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
-public class BossShip extends SpaceShip {
-    private int bulletSpeed = 4;
+public class BossShip extends SpaceShip { 
+    private int bulletSpeed = 2; 
     private int attackCounter = 0;
-    private Sprite sprBoss;
-
+    
     private Array<AttackPattern> attackPatterns;
     private AttackPattern currentAttack;
-
+    
     public BossShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
         super(x, y, tx, txBullet, soundBullet);
-        sprBoss = new Sprite(tx);
-        sprBoss.setBounds(x, y, 80, 80);
-        setLifes(25);
+        setLifes(4);
         attackPatterns = new Array<>();
         attackPatterns.add(new CircularAttackPattern(10));
         attackPatterns.add(new SpiralAttackPattern(3, 10));
@@ -38,10 +35,10 @@ public class BossShip extends SpaceShip {
 
         getSprite().setPosition(x + getXVel(), y + getYVel());
         getSprite().draw(batch);
-
+        
         attack(juego);
     }
-
+    
     private void selectRandomAttackPattern() {
     	Random ran = new Random();
     	currentAttack = attackPatterns.get(ran.nextInt(attackPatterns.size));
@@ -58,8 +55,9 @@ public class BossShip extends SpaceShip {
         	}
         	getSoundBullet().play();
             setCooldown(10f);
-        } else
-            setCooldown(getCooldown() - 0.45f);
+
+        } else 
+            setCooldown(getCooldown() - 0.1f);
     }
 
 }

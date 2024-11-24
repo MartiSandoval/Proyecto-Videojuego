@@ -5,29 +5,26 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class EnemyShip extends SpaceShip{
+public class EnemyShip extends SpaceShip implements PoderEspecial{
 	private Random ran = new Random();
-    private Sprite sprNav;
-
+	
 	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
 		super(x, y, tx, txBullet, soundBullet);
-        sprNav = new Sprite(tx);
-        sprNav.setBounds(x, y, 45, 45);
 		setLifes(2);
 		setMovementSpeed((ran.nextFloat(4 - 2 + 1)) + 2);
 	}
-
+	
 	@Override
 	public void draw(SpriteBatch batch, PantallaJuego juego) {
 		// TODO Auto-generated method stub
 		float x = getX();
 		float y = getY();
-
+		
 		movement();
-
+		
 		getSprite().setPosition(x + getXVel(), y + getYVel());
 
 		getSprite().draw(batch);
@@ -43,6 +40,7 @@ public class EnemyShip extends SpaceShip{
 			bullet.setRotation(180);
 
 			juego.agregarBala(bullet);
+
 			getSoundBullet().play();
 			setCooldown(ran.nextFloat(15 - 10 + 1) + 10);
 		}
@@ -56,6 +54,7 @@ public class EnemyShip extends SpaceShip{
 		if(getX() + getXVel() < 0 || getX() + getXVel() + getSprite().getWidth() > Gdx.graphics.getWidth())
 			setMovementSpeed(getMovementSpeed() * -1);
 	}
+	
 	public void showShip(SpriteBatch batch) {
 		getSprite().draw(batch);
 	}
@@ -76,4 +75,10 @@ public class EnemyShip extends SpaceShip{
 		return false;
 	}
 
+	@Override
+	public void activarPoder() {
+		// TODO Auto-generated method stub
+		System.out.println("Poder activado.");
+	}
+	
 }

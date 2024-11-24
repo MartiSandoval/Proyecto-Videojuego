@@ -16,6 +16,7 @@ public class SpiralAttackPattern implements AttackPattern{
         float totalAngle = 360f / numEspirales;
         float angleStep = totalAngle / cantidadBalas;
 
+
         for (int i = 0; i < cantidadBalas; i++) {
             final int index = i;
 
@@ -23,7 +24,6 @@ public class SpiralAttackPattern implements AttackPattern{
                 @Override
                 public void run() {
                     for (int j = 0; j < numEspirales; j++) {
-
                         float angle = index * angleStep + j * totalAngle;
 
 
@@ -39,6 +39,7 @@ public class SpiralAttackPattern implements AttackPattern{
                     }
                 }
             }, index * 0.1f);
+
         }
     }
 }

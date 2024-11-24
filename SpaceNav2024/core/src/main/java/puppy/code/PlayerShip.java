@@ -116,6 +116,7 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
             if (ship.getYVel() ==0)
                 ship.setYVel(ship.getYVel() + (int)getYVel()/2);
 
+
             setYVel(-getYVel());
             ship.setYVel(- ship.getYVel());
 
@@ -191,4 +192,5 @@ public class PlayerShip extends SpaceShip implements PoderEspecial{
     public void gotHurt(boolean hurt) {
         this.hurt = hurt;
     }
+
 }

@@ -31,7 +31,6 @@ public class PantallaJuego implements Screen {
 	private  ArrayList<Bullet> balas = new ArrayList<>();
     private ArrayList<PoderEspecial> PoderesEspeciales = new ArrayList<>();
 
-
 	public PantallaJuego(SpaceNavigation game, int ronda, int vidas, int score, int cantEnemies) {
 		this.game = game;
 		this.ronda = ronda;
@@ -43,8 +42,7 @@ public class PantallaJuego implements Screen {
 		batch = game.getBatch();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 640);
-
-		//inicializar assets; musica de fondo y efectos de sonido
+		
 		explosionSound = Gdx.audio.newSound(Gdx.files.internal("explosion.ogg"));
 		explosionSound.setVolume(1,0.25f);
 		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("DavidKBD - Electric Pulse - 09 - Vapor Trails Pursuit-short.wav")); //
@@ -54,14 +52,6 @@ public class PantallaJuego implements Screen {
 		gameMusic.play();
 
 	    // cargar imagen de la nave, 64x64
-		/*
-	    nave = new PlayerShip(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
-	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
-	    				new Texture(Gdx.files.internal("disparo.png")),
-	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
-      
-        nave.setLifes(vidas);
-		 */	
 		PlayerShip.getInstance();
 		PlayerShip.getInstance().setPlayer(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
@@ -144,7 +134,7 @@ public class PantallaJuego implements Screen {
 		          if (i<j)
 		        	  ((EnemyShip)ship).checkCollision(ship2);
 		        }
-		      }
+		      } 
 
 		      for(int i = 0; i < balas.size(); i++) {
 		    	  Bullet bullet = balas.get(i);
@@ -164,7 +154,6 @@ public class PantallaJuego implements Screen {
 	      PlayerShip.getInstance().draw(batch, this);
           if (boss != null)
             boss.draw(batch, this);
-
 	      //Collisions between player ship and enemy ships.
 	      for (int i = 0; i < ships.size - 1; i++) {
 	    	    EnemyShip enemyShip = (EnemyShip) ships.get(i);

@@ -10,6 +10,7 @@ public abstract class SpaceShip {
 
     private float movementSpeed;
     private int lifes;
+
     private float xVel = 0;
     private float yVel = 0;
     private Sprite spr;
@@ -23,7 +24,6 @@ public abstract class SpaceShip {
         this.txBullet = txBullet;
         spr = new Sprite(tx);
         spr.setPosition(x, y);
-        //spr.setBounds(x,  y,  45,  45);
     }
     public SpaceShip() {
     }
