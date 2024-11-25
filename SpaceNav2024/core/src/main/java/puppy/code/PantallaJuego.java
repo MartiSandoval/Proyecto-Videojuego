@@ -24,9 +24,9 @@ public class PantallaJuego implements Screen {
 	private int score;
 	private int ronda;
 	private int cantEnemies;
+        private ShipFactory factory;
 
-
-	private BossShip boss;
+	private SpaceShip boss;
 
 	private Array<SpaceShip> ships = new Array<>();
 	private  ArrayList<Bullet> balas = new ArrayList<>();
@@ -39,6 +39,8 @@ public class PantallaJuego implements Screen {
 
 		this.cantEnemies = cantEnemies;
 		Random ran = new Random();
+                
+                factory = new SpaceShipFactory();
 
 		batch = game.getBatch();
 		camera = new OrthographicCamera();
@@ -54,23 +56,23 @@ public class PantallaJuego implements Screen {
 		gameMusic.play();
 
 	    // cargar imagen de la nave, 64x64
-		PlayerShip.getInstance();
 		PlayerShip.getInstance().setPlayer(Gdx.graphics.getWidth()/2-50,30,new Texture(Gdx.files.internal("naveJugador.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("hurt.ogg")),
 	    				new Texture(Gdx.files.internal("disparo.png")),
 	    				Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+                PlayerShip.getInstance().setLifes(vidas);
         
         //crear naves enemigas
         if (ronda % 3 != 0) {
             for (int i = 0; i < cantEnemies; i++) {
-                SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50, Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60), new Texture(Gdx.files.internal("naveEnemiga.png")),
+                SpaceShip ship = factory.createEnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50, Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60), new Texture(Gdx.files.internal("naveEnemiga.png")),
                     new Texture(Gdx.files.internal("disparoEnemigo.png")),
                     Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
                 ships.add(ship);
             }
         }
        if (ronda % 3 == 0) {
-            boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
+            boss = factory.createBossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
                 new Texture(Gdx.files.internal("disparoEnemigo.png")),
                 Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
             ships.add(boss);
@@ -90,6 +92,7 @@ public class PantallaJuego implements Screen {
 		  Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
           batch.begin();
 		  dibujaEncabezado();
+                  show();
 
 	      if (PlayerShip.getInstance().isHurt()) {
 	    	  //Collision between player bullets and enemy ships.
