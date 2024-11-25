@@ -18,7 +18,7 @@ public class BossShip extends SpaceShip {
     
     public BossShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
         super(x, y, tx, txBullet, soundBullet);
-        setLifes(4);
+        setLifes(50);
 
         attackPatterns = new Array<>();
         attackPatterns.add(new CircularAttackPattern(6));

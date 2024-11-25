@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class EnemyShip extends SpaceShip implements PoderEspecial{
+public class EnemyShip extends SpaceShip{
 	private Random ran = new Random();
 	
 	public EnemyShip(float x, float y, Texture tx, Texture txBullet, Sound soundBullet) {
@@ -54,7 +54,7 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 		// TODO Auto-generated method stub
 		setXVel(getMovementSpeed());
 		if(getX() + getXVel() < 0 || getX() + getXVel() + getSprite().getWidth() > Gdx.graphics.getWidth())
-			setMovementSpeed(getMovementSpeed() * -1);
+                    setMovementSpeed(getMovementSpeed() * -1);
 	}
 	
 	public void showShip(SpriteBatch batch) {
@@ -76,11 +76,6 @@ public class EnemyShip extends SpaceShip implements PoderEspecial{
 		return false;
 	}
 
-	@Override
-	public void activarPoder() {
-		// TODO Auto-generated method stub
-		System.out.println("Poder activado.");
-	}
 	
 
 }

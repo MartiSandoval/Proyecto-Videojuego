@@ -50,7 +50,7 @@ public class PantallaJuego implements Screen {
 		gameMusic = Gdx.audio.newMusic(Gdx.files.internal("DavidKBD - Electric Pulse - 09 - Vapor Trails Pursuit-short.wav")); //
 
 		gameMusic.setLooping(true);
-		gameMusic.setVolume(0.1f);
+		gameMusic.setVolume(0.2f);
 		gameMusic.play();
 
 	    // cargar imagen de la nave, 64x64
@@ -63,11 +63,16 @@ public class PantallaJuego implements Screen {
         //crear naves enemigas
         if (ronda % 3 != 0) {
             for (int i = 0; i < cantEnemies; i++) {
-                ships.add(createShips(2));
+                SpaceShip ship = new EnemyShip(ran.nextInt((Gdx.graphics.getWidth() - 50) - 50 + 1) + 50, Gdx.graphics.getHeight() - (ran.nextInt((Gdx.graphics.getHeight() / 2) - 60 + 1) + 60), new Texture(Gdx.files.internal("naveEnemiga.png")),
+                    new Texture(Gdx.files.internal("disparoEnemigo.png")),
+                    Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
+                ships.add(ship);
             }
         }
        if (ronda % 3 == 0) {
-           boss = createShips(3);
+            boss = new BossShip(Gdx.graphics.getWidth()/2 - 250,Gdx.graphics.getHeight()/2 + 110,new Texture(Gdx.files.internal("boss.png")),
+                new Texture(Gdx.files.internal("disparoEnemigo.png")),
+                Gdx.audio.newSound(Gdx.files.internal("pop-sound.mp3")));
             ships.add(boss);
        }
 	}
@@ -86,7 +91,7 @@ public class PantallaJuego implements Screen {
           batch.begin();
 		  dibujaEncabezado();
 
-	      if (!PlayerShip.getInstance().isHurt()) {
+	      if (PlayerShip.getInstance().isHurt()) {
 	    	  //Collision between player bullets and enemy ships.
 	       	  for(int i = 0; i < balas.size(); i++) {
 	    		  Bullet bullet = balas.get(i);
@@ -146,7 +151,6 @@ public class PantallaJuego implements Screen {
 	      //Draw bullets.
 	      for (Bullet b : balas) {
 	          b.draw(batch);
-              activarPoderesEspeciales();
 	      }
 	      PlayerShip.getInstance().draw(batch, this);
           if (boss != null)
@@ -186,7 +190,7 @@ public class PantallaJuego implements Screen {
               dispose();
           }
           if (boss != null && boss.getLifes() <= 0) {
-              Screen ss = new PantallaJuego(game, ronda + 1, ship.getLifes() + 1, score, cantEnemies + 5);
+              Screen ss = new PantallaJuego(game, ronda + 1, PlayerShip.getInstance().getLifes() + 1, score, cantEnemies + 5);
               ss.resize(1200, 800);
               game.setScreen(ss);
               dispose();
@@ -198,11 +202,6 @@ public class PantallaJuego implements Screen {
     	return balas.add(bb);
     }
 
-    public void activarPoderesEspeciales(){
-        for(SpecialAttack p: PoderesEspeciales){
-            p.activarPoder();
-        }
-    }
 
 	@Override
 	public void show() {

@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
-public class PlayerShip extends SpaceShip implements SpecialAttack {
-    final int maxTimeHurt = 50;
+public class PlayerShip extends SpaceShip{
+    private int maxTimeHurt = 50;
     private int timeHurt;
-    final Sound soundHurt;
+    private Sound soundHurt;
     private boolean hurt = false;
     private boolean destroy = false;
     
@@ -156,10 +156,6 @@ public class PlayerShip extends SpaceShip implements SpecialAttack {
             return true;
         }
         return false;
-    }
-    @Override
-    public void activarPoder() {
-        System.out.println("Se activa el poder");
     }
     public Sound getSoundHurt() {
         return soundHurt;
